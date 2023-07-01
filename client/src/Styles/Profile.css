@@ -1,0 +1,29 @@
+.PageDiv {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100vh;
+  background-color: black;
+  justify-content: center;
+  align-items: flex-start;
+}
+#profileContainer {
+  height: 100px;
+  background-color: yellow;
+}
+#PostsContainer {
+  background-color: brown;
+  width: 100%;
+}
+#imageFrame {
+  width: 20%;
+}
+#imageLogo {
+  width: 20%;
+}
+
+.ProfilePageContainer {
+  margin-top: 10%;
+  margin-left: 5%;
+  margin-right: 35%;
+}

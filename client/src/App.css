@@ -1,0 +1,20 @@
+:root {
+  --c1: #001c30;
+  --c2: #176b87;
+  --c3: #64ccc5;
+  --c4: #dafffb;
+}
+@font-face {
+  src: url(fonts/Gilroy-ExtraBold.ttf);
+  font-family: GiloryB;
+}
+@font-face {
+  src: url(fonts/Gilroy-Light.ttf);
+  font-family: GiloryL;
+}
+
+body {
+  font-family: GiloryL;
+  background-color: #001c30;
+  color: #64ccc5;
+}
