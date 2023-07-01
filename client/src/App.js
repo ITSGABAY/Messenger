@@ -3,7 +3,7 @@ import "./Styles/Login.css";
 import "./Styles/NavBar.css";
 import "./Styles/Registration.css";
 import "./Styles/upload.css";
-//ASDASDASDASDASDADA
+//2
 import "./Styles/Profile.css";
 import {
   createBrowserRouter,
