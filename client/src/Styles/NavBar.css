@@ -20,6 +20,9 @@ li {
 }
 
 a {
+  border-radius: 35px;
+  background: #001c30;
+  box-shadow: 41px 41px 82px #001422, -41px -41px 82px #00243e;
   color: var(--c4);
   border: var(--c3) solid 2px;
   border-radius: 10px;

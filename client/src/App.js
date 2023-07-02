@@ -17,6 +17,7 @@ import NavBar from "./Pages/NavBar";
 import Registration from "./Pages/Registration";
 import Upload from "./Pages/upload";
 import Profile from "./Pages/Profile";
+import Post from "./Pages/Post";
 
 function App() {
   const router = createBrowserRouter([
@@ -35,6 +36,10 @@ function App() {
     {
       path: "/profile",
       element: <Profile />,
+    },
+    {
+      path: "/post",
+      element: <Post />,
     },
   ]);
   return (

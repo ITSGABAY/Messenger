@@ -7,6 +7,7 @@
   justify-content: flex-start;
 }
 #profileContainer {
+  padding: 1%;
   height: 160px;
   width: 436px;
   background-color: var(--c1);
@@ -17,7 +18,9 @@
   flex-direction: row;
   justify-content: space-around;
   border: var(--c3) 4px solid;
-  border-radius: 19px;
+  border-radius: 36px;
+  background: #001c30;
+  box-shadow: 13px 13px 29px #001422, -13px -13px 29px #00243e;
 }
 #imageFrame {
   width: 25%;

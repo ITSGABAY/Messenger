@@ -3,9 +3,11 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 19px;
+  border-radius: 10px;
+  background: #001c30;
+  box-shadow: 10px 10px 20px #001422, -10px -10px 20px #00243e;
   padding: 1%;
   border: var(--c3) solid 4px;
-  border-radius: 10px;
 }
 #PostimageFrame {
   width: 69%;
