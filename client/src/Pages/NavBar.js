@@ -2,24 +2,22 @@ import React from "react";
 
 function NavBar() {
   return (
-    <div>
-      <div id="NavBar">
-        <ul>
-          <li>
-            <a href="default.asp">Home</a>
-          </li>
-          <li>
-            <a href="news.asp">News</a>
-          </li>
-          <li>
-            <a href="contact.asp">Contact</a>
-          </li>
-          <li>
-            <a href="about.asp">About</a>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <nav>
+      <ul>
+        <li>
+          <a href="#">Home</a>
+        </li>
+        <li>
+          <a href="#">About</a>
+        </li>
+        <li>
+          <a href="#">Services</a>
+        </li>
+        <li>
+          <a href="#">Contact</a>
+        </li>
+      </ul>
+    </nav>
   );
 }
 

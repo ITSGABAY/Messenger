@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/Messenger/static/css/main.03c04ce0.css",
+    "main.js": "/Messenger/static/js/main.c6d12b61.js",
+    "static/js/787.c4e7f8f9.chunk.js": "/Messenger/static/js/787.c4e7f8f9.chunk.js",
+    "static/media/Gilroy-Light.ttf": "/Messenger/static/media/Gilroy-Light.46496110b8a51e4e8aa2.ttf",
+    "static/media/Gilroy-ExtraBold.ttf": "/Messenger/static/media/Gilroy-ExtraBold.757ed86830a9128d5bcb.ttf",
+    "static/media/defaultLogo.png": "/Messenger/static/media/defaultLogo.6b97b0ce63710db6cfe0.png",
+    "index.html": "/Messenger/index.html",
+    "main.03c04ce0.css.map": "/Messenger/static/css/main.03c04ce0.css.map",
+    "main.c6d12b61.js.map": "/Messenger/static/js/main.c6d12b61.js.map",
+    "787.c4e7f8f9.chunk.js.map": "/Messenger/static/js/787.c4e7f8f9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.03c04ce0.css",
+    "static/js/main.c6d12b61.js"
+  ]
+}

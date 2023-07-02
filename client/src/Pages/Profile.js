@@ -8,11 +8,14 @@ function Profile() {
         <div id="imageFrame">
           <img src={defaultLogo} id="imageLogo" alt="Profile" />
         </div>
-        <label id="profileName">Yair Gabay</label>
-        <label id="description">
-          Now is the winter of our discontent Made glorious summer by this sun
-          of York;
-        </label>
+        <div id="profileRightSide">
+          {" "}
+          <label id="profileName">Yair Gabay</label>
+          <label id="ProfileDescription">
+            Now is the winter of our discontent Made glorious summer by this sun
+            of York;
+          </label>
+        </div>
       </div>
       <div className="ProfilePageContainer" id="PostsContainer">
         <Post />
