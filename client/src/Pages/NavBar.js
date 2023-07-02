@@ -5,16 +5,24 @@ function NavBar() {
     <nav>
       <ul>
         <li>
-          <a href="#">Home</a>
+          <a href="#" className="AB">
+            Home
+          </a>
         </li>
         <li>
-          <a href="#">About</a>
+          <a href="#" className="AB">
+            About
+          </a>
         </li>
         <li>
-          <a href="#">Services</a>
+          <a href="#" className="AB">
+            Services
+          </a>
         </li>
         <li>
-          <a href="#">Contact</a>
+          <a href="#" className="AB">
+            Contact
+          </a>
         </li>
       </ul>
     </nav>

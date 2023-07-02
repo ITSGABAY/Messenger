@@ -48,10 +48,11 @@
   color: var(--c4);
 }
 #PostsContainer {
-  width: 831px;
+  width: 60%;
   margin: 0 auto;
+  max-width: 810px;
+  min-width: 600px;
 }
-
 #imageLogo {
   width: 80%;
   border: var(--c4) solid;

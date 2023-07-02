@@ -7,16 +7,16 @@
   background: #001c30;
   box-shadow: 10px 10px 20px #001422, -10px -10px 20px #00243e;
   padding: 1%;
-  border: var(--c3) solid 4px;
+  border: var(--c3) solid 3px;
 }
 #PostimageFrame {
   width: 69%;
-  border: var(--c3) solid 4px;
+  border: var(--c3) solid 3px;
   border-radius: 10px;
 }
 #PostRightSide {
   width: 28%;
-  border: var(--c3) solid 4px;
+  border: var(--c3) solid 3px;
   border-radius: 10px;
 }
 
@@ -39,5 +39,13 @@
 }
 
 #PostCommentsContainer {
-  border-top: var(--c3) solid 4px;
+  border-top: var(--c3) solid 3px;
+}
+
+#PostMainContainer {
+  min-width: 600px;
+  margin-top: 5%;
+  display: grid;
+  justify-items: center;
+  align-items: center;
 }

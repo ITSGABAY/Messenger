@@ -20,41 +20,9 @@ li {
 }
 
 a {
-  border-radius: 35px;
-  background: #001c30;
-  box-shadow: 41px 41px 82px #001422, -41px -41px 82px #00243e;
   color: var(--c4);
   border: var(--c3) solid 2px;
   border-radius: 10px;
   text-decoration: none;
   padding: 3px;
-}
-
-a:hover {
-  animation-name: enlarge;
-  animation-duration: 0.2s;
-  animation-fill-mode: forwards;
-}
-a:not(:hover) {
-  animation-name: shrink;
-  animation-duration: 0.2s;
-  animation-fill-mode: forwards;
-}
-
-@keyframes enlarge {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1.1);
-  }
-}
-
-@keyframes shrink {
-  0% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
 }

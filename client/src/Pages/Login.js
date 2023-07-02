@@ -43,9 +43,13 @@ function Login() {
           placeholder="Enter your password"
           {...formik.getFieldProps("password")}
         />
-        <button type="submit">Submit</button>
+        <button type="submit" className="AB">
+          Submit
+        </button>
       </form>
-      <a href="/register">Don't have an account? Register</a>
+      <a href="/register" className="AB">
+        Don't have an account? Register
+      </a>
     </div>
   );
 }
