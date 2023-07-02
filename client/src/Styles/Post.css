@@ -2,23 +2,22 @@
   height: 350px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 50px;
-  background-color: blueviolet;
+  margin-bottom: 19px;
   padding: 1%;
+  border: var(--c3) solid 4px;
+  border-radius: 10px;
 }
 #PostimageFrame {
-  width: 70%;
-  height: 100%;
-  background-color: aqua;
+  width: 69%;
+  border: var(--c3) solid 4px;
+  border-radius: 10px;
 }
 #PostRightSide {
   width: 28%;
-  background-color: #0f5116;
+  border: var(--c3) solid 4px;
+  border-radius: 10px;
 }
-#PostProfileName {
-}
-#PostCommentsContainer {
-}
+
 #PostRightSideProfileTop {
   display: flex;
   height: 10%;
@@ -28,7 +27,15 @@
 }
 #PostImageLogo {
   width: 15%;
-  border: aliceblue solid 1px;
+  border: var(--c4) solid 1px;
   border-radius: 46px;
   padding: 2px;
+}
+
+#PostProfileName {
+  color: var(--c4);
+}
+
+#PostCommentsContainer {
+  border-top: var(--c3) solid 4px;
 }
