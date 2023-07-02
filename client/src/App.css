@@ -23,3 +23,32 @@ body {
   );
   color: #64ccc5;
 }
+
+.AB:hover {
+  animation-name: enlarge;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards;
+}
+.AB:not(:hover) {
+  animation-name: shrink;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes enlarge {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes shrink {
+  0% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
