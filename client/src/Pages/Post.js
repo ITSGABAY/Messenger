@@ -1,17 +1,21 @@
 import React from "react";
 
+import defaultLogo from "../Resources/Images/defaultLogo.png";
+
 function Post() {
   return (
     <div>
-      <div className="PostContainer">
-        <div className="PostimageFrame">
+      <div id="PostContainer">
+        <div id="PostimageFrame">
           <img id="1" />
         </div>
-        <div className="PostProfileContainer">
-          <label id="profileName">Yair Gabay</label>
-          <img id="2" />
+        <div id="PostRightSide">
+          <div id="PostRightSideProfileTop">
+            <img src={defaultLogo} id="PostImageLogo" alt="Profile" />
+            <label id="PostProfileName">Yair Gabay</label>
+          </div>
+          <div id="PostCommentsContainer"></div>
         </div>
-        <div className="CommentsContainer"></div>
       </div>
     </div>
   );

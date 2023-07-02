@@ -8,8 +8,8 @@
   justify-content: flex-start;
 }
 #profileContainer {
-  height: 20%;
-  width: 70%;
+  height: 160px;
+  width: 436px;
   background-color: yellow;
   margin: 0 auto;
   margin-top: 3%;
@@ -45,7 +45,7 @@
   margin-left: 3%;
 }
 #imageLogo {
-  width: 70%;
+  width: 80%;
   border: black solid;
   border-radius: 88px;
   padding: 17px;

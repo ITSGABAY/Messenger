@@ -19,6 +19,7 @@ function Profile() {
       </div>
       <div className="ProfilePageContainer" id="PostsContainer">
         <Post />
+        <Post />
       </div>
     </div>
   );

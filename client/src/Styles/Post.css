@@ -1,0 +1,23 @@
+#PostContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+  background-color: blueviolet;
+}
+#PostimageFrame {
+  width: 498px;
+  height: 283px;
+  background-color: aqua;
+}
+#PostRightSide {
+  width: 245px;
+}
+#PostProfileName {
+}
+#PostCommentsContainer {
+}
+#PostRightSideProfileTop {
+  display: flex;
+}
+#PostImageLogo {
+}
