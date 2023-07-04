@@ -9,14 +9,17 @@ function CreatePost() {
   axios.defaults.withCredentials = true;
 
   const SubmitPost = () => {
-    console.log(image);
-    const data = {
-      title: title,
-      description: description,
-      image: image,
-    };
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("title", title);
+    formData.append("description", description);
     axios
-      .post("http://localhost:3001/post/create", data)
+      .post("http://localhost:3001/post/create", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        responseType: "arraybuffer",
+      })
       .then((response) => {
         console.log(response.data);
       })

@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     postImage: {
-      type: DataTypes.BLOB,
+      type: DataTypes.BLOB("long"),
       allowNull: true,
       defaultValue: "",
     },
