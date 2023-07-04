@@ -1,29 +1,33 @@
 const express = require("express");
 const router = express.Router();
-const { Users } = require("../models");
-const { Profiles } = require("../models");
+const { Users, Profiles } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const { createTokens, validateToken } = require("../middleware/JWT");
+const {
+  createTokens,
+  validateToken,
+  getDetails,
+} = require("../middleware/JWT");
 const jwtkey = process.env.jwtkey;
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = await Users.findOne({ where: { username: username } });
-  if (!user) res.json({ error: "User Doesn't Exist" });
-  else {
+  if (!user) {
+    res.json({ error: "User Doesn't Exist" });
+  } else {
     bcrypt.compare(password, user.password).then(async (match) => {
-      if (!match)
+      if (!match) {
         res.json({ error: "Wrong Username And Password Combination" });
-      else {
+      } else {
         const id = user.id;
-        const token = createTokens({ username: username, password: password });
+        const token = createTokens({ username: username, id: id });
+        console.log("access token created: " + token);
         const email = user.email;
         res.cookie("access-token", token, { maxAge: 600000, httpOnly: true });
         res.json({
-          username: username,
-          email: email,
+          token: token,
         });
       }
     });
@@ -52,6 +56,3 @@ router.post("/register", async (req, res) => {
 });
 
 module.exports = router;
-router.post("/profile", validateToken, (req, res) => {
-  res.json("profile");
-});

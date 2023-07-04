@@ -8,14 +8,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    logoImage: {
-      type: DataTypes.BLOB,
-      allowNull: true,
-    },
   });
   return Profiles;
 };

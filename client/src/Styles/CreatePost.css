@@ -2,7 +2,7 @@
   display: flex;
   margin-top: 1px;
   width: 425px;
-  height: 252px;
+  height: 300px;
   border: 2px solid var(--c3);
   position: absolute;
   top: 50%;
@@ -14,10 +14,8 @@
   box-shadow: 41px 41px 82px #001422, -41px -41px 82px #00243e;
   flex-direction: column;
   align-items: center;
-  align-content: flex-start;
   justify-content: center;
 }
-
 #CreatePostContainer label {
   font-size: 30px;
 }
@@ -33,17 +31,13 @@
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2);
 }
 #CreatePostContainer button {
-  margin-top: 10px;
   background-color: var(--c1);
   border: 3px solid var(--c3);
-  border-radius: 30%;
   font-family: GiloryL;
   color: var(--c4);
-  font-size: 40px;
+  font-size: 25px;
   border-radius: 12px;
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2);
-  display: block;
-  margin-left: 29%;
 }
 #CreatePostContainer textarea {
   font-size: 10px;

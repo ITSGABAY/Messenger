@@ -35,4 +35,16 @@ router.post("/", upload.single("image"), async (req, res) => {
     res.send(profile.logoImage);
   });
 });
+
+router.post("/create", validateToken, async (req, res) => {
+  const title = req.body.title;
+  const description = req.body.description;
+  const { username, userId } = getDetails(req);
+  Posts.create({
+    username: username,
+    UserId: id,
+    description: description,
+    logoImage: getLogoById(userId),
+  });
+});
 module.exports = router;

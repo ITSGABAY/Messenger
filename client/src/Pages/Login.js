@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import React from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 function Login() {
   const formik = useFormik({
@@ -14,11 +15,7 @@ function Login() {
         password: values.password,
       };
       axios.post("http://localhost:3001/auth/login", data).then((response) => {
-        if (response.data.error) {
-          alert("error");
-        } else {
-          alert("success");
-        }
+        console.log(response.data.token);
       });
     },
   });
@@ -26,7 +23,7 @@ function Login() {
   return (
     <div className="loginContainer">
       <div className="title">
-        <label id="title">Login</label>
+        <label id="Logintitle">Login</label>
       </div>
       <form onSubmit={formik.handleSubmit}>
         <label htmlFor="username">Username</label>

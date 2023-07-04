@@ -7,7 +7,7 @@ import "./Styles/Post.css";
 import "./Styles/Profile.css";
 import "./Styles/CreatePost.css";
 import "tailwindcss/tailwind.css";
-
+import "./Styles/Comment.css";
 import {
   createBrowserRouter,
   RouterProvider,
