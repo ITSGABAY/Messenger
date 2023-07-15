@@ -56,12 +56,13 @@ router.get("/getbypostid", validateToken, async (req, res) => {
   Posts.findByPk(postId).then((post) => {
     const formData = new FormData();
 
-    formData.append("image", post.postImage);
-    console.log("post.postImage::: ", post.postImage);
-    formData.append("title", post.title);
-    formData.append("description", post.description);
-    formData.append("username", post.username);
-    res.send(formData);
+    const data = {
+      image: post.postImage,
+      title: post.title,
+      description: post.description,
+      username: post.username,
+    };
+    res.send(data);
   });
 });
 

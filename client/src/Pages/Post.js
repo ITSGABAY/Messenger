@@ -14,11 +14,11 @@ function Post() {
       .then((response) => {
         console.log("response::: ", response);
 
-        console.log("response", response.data._streams[1].data);
-        const buffer = response.data._streams[1].data;
+        console.log("data image", response.data.image);
+        const buffer = response.data.image.data;
         var arrayBufferView = new Uint8Array(buffer);
         console.log("arrayBufferView::: ", arrayBufferView);
-        var blob = new Blob([arrayBufferView], { type: "image/jpeg" });
+        var blob = new Blob([arrayBufferView], { type: "image/png" });
         console.log("blob::: ", blob);
         var urlCreator = window.URL || window.webkitURL;
         console.log("urlCreator::: ", urlCreator);
