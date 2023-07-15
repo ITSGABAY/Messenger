@@ -4,6 +4,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     logoImage: {
       type: DataTypes.BLOB,
       allowNull: true,
@@ -11,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
     postImage: {
       type: DataTypes.BLOB("long"),
       allowNull: true,
-      defaultValue: "",
     },
   });
   Posts.associate = (models) => {

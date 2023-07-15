@@ -3,6 +3,7 @@ const router = express.Router();
 const { Posts } = require("../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const axios = require("axios");
 const cookieParser = require("cookie-parser");
 const {
   createTokens,
@@ -14,6 +15,7 @@ const jwtkey = process.env.jwtkey;
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const FormData = require("form-data");
 router.use(cookieParser());
 
 const storage = multer.memoryStorage();
@@ -25,7 +27,7 @@ router.post(
   upload.single("image"),
   async (req, res) => {
     const imageBuffer = req.file.buffer;
-    const imageBlob = new Blob([imageBuffer], { type: "image/jpeg" });
+    console.log("imageBuffer::: ", imageBuffer);
     const title = req.body.title;
     const description = req.body.description;
     const details = getDetails(req);
@@ -35,10 +37,12 @@ router.post(
 
     Posts.create({
       username: username,
+      postImage: imageBuffer,
+      title: title,
+      description: description,
       UserId: userId,
       description: description,
       logoImage: getLogoById(userId),
-      postImage: imageBlob,
     });
 
     res.send("success");
@@ -50,13 +54,13 @@ router.get("/getbypostid", validateToken, async (req, res) => {
   const postId = req.headers.postid;
   console.log(postId);
   Posts.findByPk(postId).then((post) => {
-    res.setHeader("Content-Type", "multipart/form-data");
+    const formData = new FormData();
+
     formData.append("image", post.postImage);
+    console.log("post.postImage::: ", post.postImage);
     formData.append("title", post.title);
     formData.append("description", post.description);
     formData.append("username", post.username);
-    formData.append("logoImage", post.logoImage);
-    console.log(formData);
     res.send(formData);
   });
 });

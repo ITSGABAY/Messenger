@@ -8,7 +8,6 @@ const jwtkey = process.env.jwtkey;
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-
 function insertLogo(id) {
   Profiles.findByPk(parseInt(id)).then((profile) => {
     if (profile) {
@@ -20,11 +19,8 @@ function insertLogo(id) {
     }
   });
 }
-
 const storage = multer.memoryStorage();
-
 const upload = multer({ storage: storage });
-
 router.post("/", upload.single("image"), async (req, res) => {
   const imageBuffer = req.file.buffer;
   const userId = req.headers["id"];

@@ -18,10 +18,9 @@ function CreatePost() {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        responseType: "arraybuffer",
       })
       .then((response) => {
-        console.log(response.data);
+        console.log(response);
       })
       .catch((error) => {
         console.error(error);
