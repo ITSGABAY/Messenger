@@ -11,6 +11,7 @@ function Post({ postData }) {
 
   useEffect(() => {
     if (postData && postData.comments) {
+      console.log("postData::: ", postData);
       const buffer = postData.image.data;
       var arrayBufferView = new Uint8Array(buffer);
       var blob = new Blob([arrayBufferView], { type: "image/png" });
@@ -23,10 +24,11 @@ function Post({ postData }) {
         logoImage: null,
         title: postData.title,
         description: postData.description,
-        userName: postData.userName,
+        userName: postData.username,
         comments: postData.comments,
       });
       setComments(postData.comments);
+      console.log("details::: ", details);
     }
   }, [postData]);
 
