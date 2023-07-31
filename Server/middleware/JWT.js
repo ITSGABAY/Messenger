@@ -6,42 +6,42 @@ const { error } = require("console");
 const jwtkey = process.env.jwtkey;
 
 const createTokens = (user) => {
+  console.log("-------------- Creating Token Start --------------");
   const accessToken = sign({ username: user.username, id: user.id }, jwtkey);
+  console.log("Token created for user:", user.username);
+  console.log("-------------- Creating Token End --------------");
 
   return accessToken;
 };
 
 const validateToken = (req, res, next) => {
-  console.log("---------------------------------");
-  console.log("Validate process started");
+  console.log("-------------- Validating Token Start --------------");
+  const accessToken = req.headers.cookie.split("=")[1];
+  if (!accessToken) {
+    console.log("Access token not found");
+    return res.send({ error: "Access token not found" });
+  }
+
   try {
-    const accessToken = req.headers.cookie.split("=")[1];
-    console.log(req.Cookie);
-    console.log("access token:" + accessToken);
-    if (!accessToken) {
-      console.log("Access token not found");
-      throw new Error("first step error : Access token not found");
-    }
-    try {
-      console.log("access token exist");
-      const validToken = verify(accessToken, jwtkey);
-      console.log("access token validate");
-      if (validToken) {
-        req.authenticated = true;
-        console.log("success");
-        return next();
-      }
-    } catch (err) {
-      throw new Error("access token not validated , " + err);
-    }
-  } catch (error) {
-    console.log("final error: " + error);
-    return res.send({ err2: error });
+    verify(accessToken, jwtkey);
+    console.log("Access token validated successfully");
+    req.authenticated = true;
+    console.log("-------------- Validating Token End --------------");
+    return next();
+  } catch (err) {
+    console.log("Error in access token validation:", err);
+    return res.send({ error: err });
   }
 };
-const getDetails = (req) => {
+
+const getIdFromCookie = (req) => {
+  console.log("-------------- Retrieving ID Start --------------");
   const accessToken = req.headers.cookie.split("=")[1];
   const decoded = verify(accessToken, jwtkey);
-  return { username: decoded.username, id: decoded.id };
+  console.log("ID retrieved:", decoded.id);
+  console.log("-------------- Retrieving ID End --------------");
+
+  return decoded.id;
 };
-module.exports = { createTokens, validateToken, getDetails };
+
+module.exports = { createTokens, validateToken, getIdFromCookie };

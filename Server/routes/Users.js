@@ -46,8 +46,7 @@ router.post("/register", async (req, res) => {
       });
     });
     Profiles.create({
-      username: username,
-      email: email,
+      userName: username,
     });
     res.json({ Success: "True" });
   } else {

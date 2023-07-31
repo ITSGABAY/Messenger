@@ -1,43 +1,95 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import Buffer from "buffer";
 import defaultLogo from "../Resources/Images/defaultLogo.png";
-import { imagefrombuffer } from "imagefrombuffer";
-function Post() {
-  const [viewImage, setViewImage] = useState(null);
-  useEffect(() => {
-    const data = { postid: "1" };
-    axios
-      .get("http://localhost:3001/post/getbypostid", {
-        headers: { postid: "1" },
-      })
-      .then((response) => {
-        console.log("response::: ", response);
+import submitIcon from "../Resources/Images/Send.png";
+import Comment from "./Comment";
 
-        console.log("data image", response.data.image);
-        const buffer = response.data.image.data;
-        var arrayBufferView = new Uint8Array(buffer);
-        console.log("arrayBufferView::: ", arrayBufferView);
-        var blob = new Blob([arrayBufferView], { type: "image/png" });
-        console.log("blob::: ", blob);
-        var urlCreator = window.URL || window.webkitURL;
-        console.log("urlCreator::: ", urlCreator);
-        var imageUrl = urlCreator.createObjectURL(blob);
-        setViewImage(imageUrl);
+function Post({ postData }) {
+  const commentRef = useRef(null);
+  const [comments, setComments] = useState([]);
+  const [details, setDetails] = useState({});
+
+  useEffect(() => {
+    if (postData && postData.comments) {
+      const buffer = postData.image.data;
+      var arrayBufferView = new Uint8Array(buffer);
+      var blob = new Blob([arrayBufferView], { type: "image/png" });
+      var urlCreator = window.URL || window.webkitURL;
+      var imageUrl = urlCreator.createObjectURL(blob);
+
+      setDetails({
+        postId: postData.id,
+        postImage: imageUrl,
+        logoImage: null,
+        title: postData.title,
+        description: postData.description,
+        userName: postData.userName,
+        comments: postData.comments,
       });
-  }, []);
+      setComments(postData.comments);
+    }
+  }, [postData]);
+
+  const SubmitComment = () => {
+    const comment = commentRef.current.value;
+    axios
+      .post(
+        "http://localhost:3001/comment/create",
+        { comment: comment },
+        {
+          headers: { postid: details.postId },
+        }
+      )
+      .then((response) => {
+        setComments(response.data);
+        commentRef.current.value = "";
+      });
+  };
+
   return (
     <div>
       <div id="PostContainer">
         <div id="PostimageFrame">
-          <img id="1" src={viewImage} />
+          <img id="PostImage" src={details.postImage} />
         </div>
         <div id="PostRightSide">
-          <div id="PostRightSideProfileTop">
-            <img src={defaultLogo} id="PostImageLogo" alt="Profile" />
-            <label id="PostProfileName">Yair Gabay</label>
+          <div id="PostRightSideTop">
+            <div id="PostRightSideTopProfile">
+              <img src={defaultLogo} id="PostImageLogo" alt="Profile" />
+              <label id="PostProfileName">{details.userName}</label>
+            </div>
+            <div id="PostRightSideTopInfo">
+              <label id="PostTitle">{details.title}</label>
+              <label id="PostDescription">{details.description}</label>
+            </div>
           </div>
-          <div id="PostCommentsContainer"></div>
+          <div id="PostCommentsContainer">
+            {comments.map((comment) => {
+              return (
+                <Comment
+                  key={comment.id}
+                  text={comment.text}
+                  username={comment.username}
+                  logo={comment.logoImage}
+                />
+              );
+            })}
+          </div>
+
+          <div id="addCommentContainer">
+            <textarea
+              id="addCommentInput"
+              type="text"
+              placeholder="Enter Comment"
+              ref={commentRef}
+            />
+            <img
+              id="submitComment"
+              src={submitIcon}
+              onClick={SubmitComment}
+              alt="Submit"
+            />
+          </div>
         </div>
       </div>
     </div>

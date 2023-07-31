@@ -1,7 +1,21 @@
-import React from "react";
 import defaultLogo from "../Resources/Images/defaultLogo.png";
 import Post from "./Post";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 function Profile() {
+  const [details, setDetails] = useState({});
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/post/getpostsbyuserid", {
+        headers: { userid: "2" },
+      })
+      .then(async (response) => {
+        setPosts(response.data);
+      });
+  }, []);
   return (
     <div className="PageDiv">
       <div id="profileContainer" class="ProfilePageContainer">
@@ -18,8 +32,9 @@ function Profile() {
         </div>
       </div>
       <div className="ProfilePageContainer" id="PostsContainer">
-        <Post />
-        <Post />
+        {posts.map((post) => {
+          return <Post postData={post} />;
+        })}
       </div>
     </div>
   );
