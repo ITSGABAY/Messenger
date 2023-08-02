@@ -27,7 +27,8 @@ router.post("/login", async (req, res) => {
         const email = user.email;
         res.cookie("access-token", token, { maxAge: 600000, httpOnly: true });
         res.json({
-          token: token,
+          username: username,
+          userId: user.id,
         });
       }
     });

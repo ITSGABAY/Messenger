@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Post from "./Post";
 
 function PostMain() {
   const [postData, setPostData] = useState(null);
+  const Navigator = useNavigate();
 
   useEffect(() => {
     axios
@@ -12,6 +14,12 @@ function PostMain() {
       })
       .then(async (response) => {
         setPostData(response.data);
+      })
+      .catch((err) => {
+        if (err.response.status) {
+          console.log("err::: ", err);
+          Navigator("/login");
+        }
       });
   }, []);
 

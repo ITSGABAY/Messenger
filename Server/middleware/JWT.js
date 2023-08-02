@@ -16,10 +16,17 @@ const createTokens = (user) => {
 
 const validateToken = (req, res, next) => {
   console.log("-------------- Validating Token Start --------------");
-  const accessToken = req.headers.cookie.split("=")[1];
+
+  const cookie = req.headers.cookie;
+  if (!cookie) {
+    console.log("Cookie not found");
+    return res.status(400).json({ error: "Cookie not found" });
+  }
+
+  const accessToken = cookie.split("=")[1];
   if (!accessToken) {
     console.log("Access token not found");
-    return res.send({ error: "Access token not found" });
+    return res.status(401).json({ error: "Access token not found" });
   }
 
   try {
@@ -27,10 +34,12 @@ const validateToken = (req, res, next) => {
     console.log("Access token validated successfully");
     req.authenticated = true;
     console.log("-------------- Validating Token End --------------");
-    return next();
+    next();
   } catch (err) {
-    console.log("Error in access token validation:", err);
-    return res.send({ error: err });
+    console.log("Error in access token validation:", err.message);
+    return res
+      .status(403)
+      .json({ error: "Invalid access token", details: err.message });
   }
 };
 

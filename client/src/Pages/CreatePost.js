@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react"; // add useEffect here
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 axios.defaults.withCredentials = true;
+
 function CreatePost() {
+  const Navigator = useNavigate();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
@@ -21,8 +26,11 @@ function CreatePost() {
       .then((response) => {
         console.log(response);
       })
-      .catch((error) => {
-        console.error(error);
+      .catch((err) => {
+        if (err.response.status) {
+          console.log("err::: ", err);
+          Navigator("/login");
+        }
       });
   };
 

@@ -1,9 +1,17 @@
 import { useFormik } from "formik";
-import React from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import React, { useState, useEffect, useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../authSlice";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const Navigator = useNavigate();
+  const dispatch = useDispatch();
+  const { isAuthenticated, userId, username } = useSelector(
+    (state) => state.auth
+  );
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -15,7 +23,8 @@ function Login() {
         password: values.password,
       };
       axios.post("http://localhost:3001/auth/login", data).then((response) => {
-        console.log(response.data.token);
+        dispatch(login({ userId: data.userId, username: data.username }));
+        Navigator(`/profile/${data.username}`);
       });
     },
   });

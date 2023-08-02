@@ -23,6 +23,8 @@ import Upload from "./Pages/upload";
 import Profile from "./Pages/Profile";
 import PostMain from "./Pages/PostMain";
 import CreatePost from "./Pages/CreatePost";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 function App() {
   const router = createBrowserRouter([
@@ -39,7 +41,7 @@ function App() {
       element: <Upload />,
     },
     {
-      path: "/profile",
+      path: "/profile/:profileName",
       element: <Profile />,
     },
     {
@@ -51,11 +53,14 @@ function App() {
       element: <CreatePost />,
     },
   ]);
+
   return (
-    <div>
-      <NavBar />
-      <RouterProvider router={router} />
-    </div>
+    <Provider store={store}>
+      <RouterProvider router={router}>
+        <NavBar />
+        <Outlet />
+      </RouterProvider>
+    </Provider>
   );
 }
 

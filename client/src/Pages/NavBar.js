@@ -1,28 +1,38 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function NavBar() {
+  const navigate = useNavigate();
+  const { isAuthenticated, userId, username } = useSelector(
+    (state) => state.auth
+  );
+
   return (
     <nav>
       <ul>
         <li>
-          <a href="#" className="AB">
-            Home
-          </a>
+          <button
+            onClick={() => navigate(`/profile/${username}`)}
+            className="AB"
+          >
+            My Profile
+          </button>
         </li>
         <li>
-          <a href="#" className="AB">
+          <button onClick={() => navigate("/about")} className="AB">
             About
-          </a>
+          </button>
         </li>
         <li>
-          <a href="#" className="AB">
+          <button onClick={() => navigate("/services")} className="AB">
             Services
-          </a>
+          </button>
         </li>
         <li>
-          <a href="#" className="AB">
+          <button onClick={() => navigate("/contact")} className="AB">
             Contact
-          </a>
+          </button>
         </li>
       </ul>
     </nav>

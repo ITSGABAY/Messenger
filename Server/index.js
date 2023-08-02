@@ -15,14 +15,14 @@ const db = require("./models");
 const usersRouter = require("./routes/Users");
 const uploadController = require("./routes/uploadController");
 const postRouter = require("./routes/Posts");
-const tryRouter = require("./routes/try");
+const profileRouter = require("./routes/Profile");
 const commentRouter = require("./routes/Comments");
 
 app.use("/auth", usersRouter);
 app.use("/upload", uploadController);
 app.use("/post", postRouter);
 app.use("/comment", commentRouter);
-app.use("/try", tryRouter);
+app.use("/profile", profileRouter);
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {
     console.log("Server running on port 3001");

@@ -1,38 +1,65 @@
 import defaultLogo from "../Resources/Images/defaultLogo.png";
 import Post from "./Post";
 import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 function Profile() {
   const [details, setDetails] = useState({});
-  const [posts, setPosts] = useState([]);
+  const [profileData, setProfileData] = useState({ posts: [] });
+  const { isAuthenticated, userId, username } = useSelector(
+    (state) => state.auth
+  );
+  const navigate = useNavigate();
+  const { profileName } = useParams();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/post/getpostsbyuserid", {
-        headers: { userid: "2" },
-      })
-      .then(async (response) => {
-        setPosts(response.data);
-      });
-  }, []);
+    console.log("profileName::: ", profileName);
+
+    if (!isAuthenticated) {
+      navigate("/login");
+    } else {
+      axios
+        .get("http://localhost:3001/profile/getprofiledata", {
+          headers: { profilename: profileName },
+        })
+        .then(async (response) => {
+          setProfileData({
+            username: response.data.username,
+            id: response.data.id,
+            posts: response.data.posts,
+            description: response.data.description,
+            logoImage: response.data.logoImage,
+          });
+        })
+        .catch((err) => {
+          if (err.response.status) {
+            console.log("err::: ", err);
+            navigate("/login");
+          }
+        });
+    }
+  }, [isAuthenticated, navigate]);
+
   return (
     <div className="PageDiv">
       <div id="profileContainer" class="ProfilePageContainer">
         <div id="imageFrame">
-          <img src={defaultLogo} id="imageLogo" alt="Profile" />
+          <img
+            src={profileData.logoImage ? profileData.logoImage : defaultLogo}
+            id="imageLogo"
+            alt="Profile"
+          />
         </div>
         <div id="profileRightSide">
           {" "}
-          <label id="profileName">Yair Gabay</label>
-          <label id="ProfileDescription">
-            Now is the winter of our discontent Made glorious summer by this sun
-            of York;
-          </label>
+          <label id="profileName">{profileData.username}</label>
+          <label id="ProfileDescription">{profileData.description}</label>
         </div>
       </div>
       <div className="ProfilePageContainer" id="PostsContainer">
-        {posts.map((post) => {
+        {profileData.posts.map((post) => {
           return <Post postData={post} />;
         })}
       </div>
