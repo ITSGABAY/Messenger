@@ -1,5 +1,6 @@
 import defaultLogo from "../Resources/Images/defaultLogo.png";
 import Post from "./Post";
+import NavBar from "./NavBar";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
@@ -15,8 +16,7 @@ function Profile() {
   const { profileName } = useParams();
 
   useEffect(() => {
-    console.log("profileName::: ", profileName);
-
+    //runs twice because of react strict mode -- yair
     if (!isAuthenticated) {
       navigate("/login");
     } else {
@@ -25,7 +25,7 @@ function Profile() {
           headers: { profilename: profileName },
         })
         .then(async (response) => {
-          setProfileData({
+          await setProfileData({
             username: response.data.username,
             id: response.data.id,
             posts: response.data.posts,
@@ -40,28 +40,31 @@ function Profile() {
           }
         });
     }
-  }, [isAuthenticated, navigate]);
+  }, []);
 
   return (
-    <div className="PageDiv">
-      <div id="profileContainer" class="ProfilePageContainer">
-        <div id="imageFrame">
-          <img
-            src={profileData.logoImage ? profileData.logoImage : defaultLogo}
-            id="imageLogo"
-            alt="Profile"
-          />
+    <div>
+      <NavBar />
+      <div className="PageDiv">
+        <div id="profileContainer" class="ProfilePageContainer">
+          <div id="imageFrame">
+            <img
+              src={profileData.logoImage ? profileData.logoImage : defaultLogo}
+              id="imageLogo"
+              alt="Profile"
+            />
+          </div>
+          <div id="profileRightSide">
+            {" "}
+            <label id="profileName">{profileData.username}</label>
+            <label id="ProfileDescription">{profileData.description}</label>
+          </div>
         </div>
-        <div id="profileRightSide">
-          {" "}
-          <label id="profileName">{profileData.username}</label>
-          <label id="ProfileDescription">{profileData.description}</label>
+        <div className="ProfilePageContainer" id="PostsContainer">
+          {profileData.posts.map((post) => {
+            return <Post postData={post} />;
+          })}
         </div>
-      </div>
-      <div className="ProfilePageContainer" id="PostsContainer">
-        {profileData.posts.map((post) => {
-          return <Post postData={post} />;
-        })}
       </div>
     </div>
   );

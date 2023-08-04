@@ -9,6 +9,8 @@
   box-shadow: 10px 10px 20px #001422, -10px -10px 20px #00243e;
   padding: 1%;
   border: var(--c3) solid 3px;
+  max-height: 750px;
+  min-height: 600px;
 }
 #PostRightSideTop {
   display: flex;

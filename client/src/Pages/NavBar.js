@@ -1,16 +1,25 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import defaultLogo from "../Resources/Images/defaultLogo.png";
 
 function NavBar() {
   const navigate = useNavigate();
-  const { isAuthenticated, userId, username } = useSelector(
+  const { isAuthenticated, userId, username, logoImage } = useSelector(
     (state) => state.auth
   );
-
   return (
-    <nav>
-      <ul>
+    <nav id="NavBar">
+      <div id="NavBarimageFrame">
+        <img
+          src={logoImage ? logoImage : defaultLogo}
+          id="NavBarImageLogo"
+          alt="Profile"
+          onClick={() => navigate(`/profile/${username}`)}
+        />
+      </div>
+
+      <ul id="main-buttons">
         <li>
           <button
             onClick={() => navigate(`/profile/${username}`)}
@@ -35,6 +44,13 @@ function NavBar() {
           </button>
         </li>
       </ul>
+      <input
+        class="input"
+        type="text"
+        required=""
+        placeholder="Search twitter"
+        id="search"
+      />
     </nav>
   );
 }

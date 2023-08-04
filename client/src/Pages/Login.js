@@ -23,7 +23,14 @@ function Login() {
         password: values.password,
       };
       axios.post("http://localhost:3001/auth/login", data).then((response) => {
-        dispatch(login({ userId: data.userId, username: data.username }));
+        dispatch(
+          login({
+            userId: data.userId,
+            username: data.username,
+            logoImage: data.logoImage,
+          })
+        );
+
         Navigator(`/profile/${data.username}`);
       });
     },

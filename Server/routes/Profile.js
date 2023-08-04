@@ -13,17 +13,9 @@ const {
 const multer = require("multer");
 
 router.get("/getprofiledata", validateToken, async (req, res) => {
-  console.log(
-    "-------------- GET /getprofiledata Request Start --------------"
-  );
+  console.log("getprofiledata");
   const profileName = req.headers.profilename;
-  console.log("profileName::: ", req.headers);
   const profileData = await getProfileDataByName(profileName);
-  console.log(
-    "GET /getprofiledata request completed. Retrieved Profile Data: ",
-    profileData
-  );
-  console.log("-------------- GET /getprofiledata Request End --------------");
   res.send(profileData);
 });
 

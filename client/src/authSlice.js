@@ -14,11 +14,13 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.userId = action.payload.userId;
       state.username = action.payload.username;
+      state.logoImage = action.payload.logoImage;
     },
     logout: (state) => {
       state.isAuthenticated = false;
       state.userId = null;
       state.username = null;
+      state.logoImage = null;
     },
   },
 });

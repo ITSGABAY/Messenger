@@ -10,6 +10,14 @@ const {
   getDetails,
 } = require("../middleware/JWT");
 const jwtkey = process.env.jwtkey;
+const {
+  getProfileDataByName,
+  getCommentsByPostId,
+  getPostByPostId,
+  getPostsByUserId,
+  mapPostData,
+  getUserDataById,
+} = require("../middleware/Helpers");
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
@@ -23,13 +31,14 @@ router.post("/login", async (req, res) => {
       } else {
         const id = user.id;
         const token = createTokens({ username: username, id: id });
-        console.log("access token created: " + token);
         const email = user.email;
         res.cookie("access-token", token, { maxAge: 600000, httpOnly: true });
-        res.json({
+        const data = {
           username: username,
           userId: user.id,
-        });
+          logoImage: await getUserDataById(user.id).logoImage,
+        };
+        res.send(data);
       }
     });
   }

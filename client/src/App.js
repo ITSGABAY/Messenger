@@ -28,6 +28,7 @@ import { store } from "./store";
 
 function App() {
   const router = createBrowserRouter([
+    { path: "/", element: <NavBar /> },
     {
       path: "/login",
       element: <Login />,
@@ -45,7 +46,7 @@ function App() {
       element: <Profile />,
     },
     {
-      path: "/post",
+      path: "/post/:postId",
       element: <PostMain />,
     },
     {
@@ -58,7 +59,6 @@ function App() {
     <Provider store={store}>
       <RouterProvider router={router}>
         <NavBar />
-        <Outlet />
       </RouterProvider>
     </Provider>
   );
