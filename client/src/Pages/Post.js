@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import defaultLogo from "../Resources/Images/defaultLogo.png";
-import submitIcon from "../Resources/Images/Send.png";
-import Comment from "./Comment";
+import submitIcon from "../Resources/Images/message.png";
+import Comment from "../Components/Comment";
 import { useNavigate, useMatch } from "react-router-dom";
 
 function Post({ postData }) {
@@ -35,17 +35,14 @@ function Post({ postData }) {
   const SubmitComment = () => {
     const comment = commentRef.current.value;
     axios
-      .post(
-        "http://localhost:3001/comment/create",
-        { comment: comment },
-        {
-          headers: { postid: details.postId },
-        }
-      )
+      .post(`http://localhost:3001/comment/create/${details.postId}`, {
+        comment: comment,
+      })
       .then((response) => {
         setComments(response.data);
         commentRef.current.value = "";
-      });
+      })
+      .catch();
   };
 
   return (
@@ -54,8 +51,6 @@ function Post({ postData }) {
         id="PostimageFrame"
         onClick={() => {
           if (!match) {
-            console.log("match::: ", match);
-            console.log("details.postId::: ", details.postId);
             Navigator(`/post/${details.postId}`);
           }
         }}

@@ -1,0 +1,51 @@
+#ProfileTabContainer {
+  height: 200px;
+  width: 550px;
+  margin: 20px;
+}
+
+#profileContainer {
+  padding: 200px;
+  box-sizing: border-box;
+  padding: 1%;
+  height: 100%;
+  width: 100%;
+  background-color: var(--c1);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  border: var(--c3) 4px solid;
+  border-radius: 36px;
+  background: #001c30;
+  box-shadow: 13px 13px 29px #001422, -13px -13px 29px #00243e;
+}
+
+#imageFrame {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 3%;
+}
+
+#profileRightSide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 50%;
+}
+
+#profileName {
+  font-size: 200%;
+  margin: 3%;
+  color: var(--c4);
+}
+
+#ProfileDescription {
+  width: 248px;
+  text-align: center;
+  font-size: 15px;
+  color: var(--c4);
+}

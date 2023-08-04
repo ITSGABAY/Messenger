@@ -2,9 +2,10 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import defaultLogo from "../Resources/Images/defaultLogo.png";
+import SearchBar from "../Components/SearchBar";
 
 function NavBar() {
-  const navigate = useNavigate();
+  const Navigator = useNavigate();
   const { isAuthenticated, userId, username, logoImage } = useSelector(
     (state) => state.auth
   );
@@ -15,42 +16,38 @@ function NavBar() {
           src={logoImage ? logoImage : defaultLogo}
           id="NavBarImageLogo"
           alt="Profile"
-          onClick={() => navigate(`/profile/${username}`)}
+          onClick={() => Navigator(`/profile/${username}`)}
         />
       </div>
 
       <ul id="main-buttons">
         <li>
           <button
-            onClick={() => navigate(`/profile/${username}`)}
+            onClick={() => Navigator(`/profile/${username}`)}
             className="AB"
           >
             My Profile
           </button>
         </li>
         <li>
-          <button onClick={() => navigate("/about")} className="AB">
+          <button onClick={() => Navigator("/about")} className="AB">
             About
           </button>
         </li>
         <li>
-          <button onClick={() => navigate("/services")} className="AB">
+          <button onClick={() => Navigator("/services")} className="AB">
             Services
           </button>
         </li>
         <li>
-          <button onClick={() => navigate("/contact")} className="AB">
+          <button onClick={() => Navigator("/contact")} className="AB">
             Contact
           </button>
         </li>
       </ul>
-      <input
-        class="input"
-        type="text"
-        required=""
-        placeholder="Search twitter"
-        id="search"
-      />
+      <div id="NavBarSearchDiv">
+        <SearchBar />
+      </div>
     </nav>
   );
 }

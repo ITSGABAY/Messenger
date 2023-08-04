@@ -7,7 +7,9 @@ import "./Styles/Post.css";
 import "./Styles/Profile.css";
 import "./Styles/CreatePost.css";
 import "./Styles/Comment.css";
-
+import "./Styles/SearchBar.css";
+import "./Styles/ProfileTab.css";
+import "./Styles/SearchPage.css";
 import "tailwindcss/tailwind.css";
 import {
   createBrowserRouter,
@@ -25,6 +27,7 @@ import PostMain from "./Pages/PostMain";
 import CreatePost from "./Pages/CreatePost";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import SearchPage from "./Pages/SearchPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -52,6 +55,10 @@ function App() {
     {
       path: "/createpost",
       element: <CreatePost />,
+    },
+    {
+      path: "/search/:searchValue",
+      element: <SearchPage />,
     },
   ]);
 

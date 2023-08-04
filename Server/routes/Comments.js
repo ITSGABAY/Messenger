@@ -7,10 +7,10 @@ const {
   getCommentsByPostId,
 } = require("../middleware/Helpers");
 
-router.post("/create", validateToken, async (req, res) => {
+router.post("/create/:postid", validateToken, async (req, res) => {
   const text = req.body.comment;
   const userId = getIdFromCookie(req);
-  const postId = req.headers.postid;
+  const postId = req.params.postid;
   await Comments.create({
     text: text,
     UserId: userId,

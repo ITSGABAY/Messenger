@@ -15,7 +15,6 @@ const createTokens = (user) => {
 const validateToken = (req, res, next) => {
   const cookie = req.headers.cookie;
   if (!cookie) {
-    console.log("Cookie not found");
     return res.status(400).json({ error: "Cookie not found" });
   }
 

@@ -11,9 +11,7 @@ function PostMain() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/post/getpostbypostid", {
-        headers: { postid: postId },
-      })
+      .get(`http://localhost:3001/post/getpostbypostid/${postId}`)
       .then(async (response) => {
         setPostData(response.data);
       })

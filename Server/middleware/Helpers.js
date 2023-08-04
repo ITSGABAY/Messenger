@@ -1,4 +1,5 @@
 const { Users, Profiles, Comments, Posts } = require("../models");
+const { Op } = require("sequelize");
 
 const getUserDataById = async (id) => {
   return Profiles.findByPk(parseInt(id)).then((profile) => {
@@ -27,16 +28,30 @@ const mapCommentData = async (comment) => {
   return data;
 };
 
-const mapPostData = async (post, userDetails) => {
-  const data = {
-    id: post.id,
-    image: post.postImage,
-    title: post.title,
-    description: post.description,
-    username: userDetails.userName,
-    logoImage: userDetails.logoImage,
-    comments: await getCommentsByPostId(post.id),
-  };
+const mapPostData = async (post, userDetails = null) => {
+  let data = {};
+  if (userDetails) {
+    data = {
+      id: post.id,
+      image: post.postImage,
+      title: post.title,
+      description: post.description,
+      username: userDetails.userName,
+      logoImage: userDetails.logoImage,
+      comments: await getCommentsByPostId(post.id),
+    };
+  } else {
+    const CurrentUserDetails = await getUserDataById(post.UserId);
+    data = {
+      id: post.id,
+      image: post.postImage,
+      title: post.title,
+      description: post.description,
+      username: CurrentUserDetails.userName,
+      logoImage: CurrentUserDetails.logoImage,
+      comments: await getCommentsByPostId(post.id),
+    };
+  }
   return data;
 };
 
@@ -73,7 +88,37 @@ const getProfileDataByName = async (profileName) => {
   return data;
 };
 
+const findPostByTitle = async (title) => {
+  const posts = await Posts.findAll({
+    where: {
+      title: {
+        [Op.like]: title,
+      },
+    },
+  });
+  const postList = await Promise.all(posts.map((post) => mapPostData(post)));
+  return postList;
+};
+
+const findProfileByName = async (profileName) => {
+  const profiles = await Profiles.findAll({
+    where: {
+      userName: {
+        [Op.like]: profileName,
+      },
+    },
+  });
+  const profilesList = await Promise.all(
+    profiles.map((profile) => {
+      return { username: profile.userName, logoImage: profile.logoImage };
+    })
+  );
+  return profilesList;
+};
+
 module.exports = {
+  findProfileByName,
+  findPostByTitle,
   getProfileDataByName,
   getCommentsByPostId,
   getPostByPostId,

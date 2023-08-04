@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react"; // add useEffect here
+import React, { useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -7,16 +7,17 @@ axios.defaults.withCredentials = true;
 function CreatePost() {
   const Navigator = useNavigate();
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
+  const titleRef = useRef("");
+  const descriptionRef = useRef("");
+  const imageRef = useRef(null);
+
   axios.defaults.withCredentials = true;
 
   const SubmitPost = () => {
     const formData = new FormData();
-    formData.append("image", image);
-    formData.append("title", title);
-    formData.append("description", description);
+    formData.append("image", imageRef.current.files[0]);
+    formData.append("title", titleRef.current.value);
+    formData.append("description", descriptionRef.current.value);
     axios
       .post("http://localhost:3001/post/create", formData, {
         headers: {
@@ -43,9 +44,7 @@ function CreatePost() {
             id="titleInput"
             type="text"
             placeholder="Enter title"
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
+            ref={titleRef}
           />
         </div>
         <div id="CreatePostContainerDescription">
@@ -55,20 +54,12 @@ function CreatePost() {
             placeholder="Enter description"
             rows="4"
             cols="50"
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
+            ref={descriptionRef}
           ></textarea>
         </div>
         <div id="CreatePostContainerFile">
           <label htmlFor="fileInput">Upload File:</label>
-          <input
-            id="fileInput"
-            type="file"
-            onChange={(e) => {
-              setImage(e.target.files[0]);
-            }}
-          />
+          <input id="fileInput" type="file" ref={imageRef} />
         </div>
         <button id="CreatePostSubmitButton" onClick={SubmitPost}>
           Submit

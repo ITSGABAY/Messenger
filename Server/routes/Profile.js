@@ -12,9 +12,8 @@ const {
 } = require("../middleware/Helpers");
 const multer = require("multer");
 
-router.get("/getprofiledata", validateToken, async (req, res) => {
-  console.log("getprofiledata");
-  const profileName = req.headers.profilename;
+router.get("/getprofiledata/:profilename", validateToken, async (req, res) => {
+  const profileName = req.params.profilename;
   const profileData = await getProfileDataByName(profileName);
   res.send(profileData);
 });

@@ -1,0 +1,21 @@
+#SearchBarContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--c3);
+  border-radius: 10px;
+}
+#SearchBarInput {
+  background-color: transparent;
+  color: white;
+  width: 90%;
+  height: 70%;
+  outline: none;
+}
+#SearchIcon {
+  filter: invert(99%) sepia(67%) saturate(7292%) hue-rotate(154deg)
+    brightness(84%) contrast(88%);
+  height: 60%;
+}
