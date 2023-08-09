@@ -10,7 +10,8 @@ import "./Styles/Comment.css";
 import "./Styles/SearchBar.css";
 import "./Styles/ProfileTab.css";
 import "./Styles/SearchPage.css";
-import "tailwindcss/tailwind.css";
+import "./Styles/Chat.css";
+import "./Styles/Message.css";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -25,6 +26,7 @@ import Upload from "./Pages/upload";
 import Profile from "./Pages/Profile";
 import PostMain from "./Pages/PostMain";
 import CreatePost from "./Pages/CreatePost";
+import Chat from "./Pages/Chat";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import SearchPage from "./Pages/SearchPage";
@@ -59,6 +61,10 @@ function App() {
     {
       path: "/search/:searchValue",
       element: <SearchPage />,
+    },
+    {
+      path: "/chat/:friendName",
+      element: <Chat />,
     },
   ]);
 

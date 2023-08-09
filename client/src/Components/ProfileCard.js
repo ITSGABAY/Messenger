@@ -7,7 +7,7 @@ function ProfileCard(props) {
   const Navigator = useNavigate();
   return (
     <div>
-      <div
+      <div1
         id="profileContainer"
         className="ProfilePageContainer"
         onClick={() => {
@@ -26,8 +26,9 @@ function ProfileCard(props) {
         <div id="profileRightSide">
           <label id="profileName">{props.username}</label>
           <label id="ProfileDescription">{props.description}</label>
+          <btn id="messageBtn">Message </btn>
         </div>
-      </div>
+      </div1>
     </div>
   );
 }

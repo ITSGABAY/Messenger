@@ -1,4 +1,4 @@
-const { Users, Profiles, Comments, Posts } = require("../models");
+const { Users, Profiles, Comments, Posts, Messages } = require("../models");
 const { Op } = require("sequelize");
 
 const getUserDataById = async (id) => {
@@ -116,7 +116,28 @@ const findProfileByName = async (profileName) => {
   return profilesList;
 };
 
+const addMessage = async (text, image, SenderId, ReceiverId) => {
+  console.log(
+    "text, image, SenderId, ReceiverId::: ",
+    text,
+    image,
+    SenderId,
+    ReceiverId
+  );
+  Messages.create({
+    ChatCode:
+      SenderId > ReceiverId
+        ? `${SenderId}&${ReceiverId}`
+        : `${ReceiverId}:${SenderId}`,
+    Text: text,
+    Image: image,
+    SenderId: SenderId,
+    ReceiverId: ReceiverId,
+  });
+};
+
 module.exports = {
+  addMessage,
   findProfileByName,
   findPostByTitle,
   getProfileDataByName,

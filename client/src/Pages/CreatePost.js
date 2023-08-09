@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import NavBar from "./NavBar";
 
 axios.defaults.withCredentials = true;
 
@@ -37,6 +38,7 @@ function CreatePost() {
 
   return (
     <div>
+      <NavBar />
       <div id="CreatePostContainer">
         <div id="CreatePostContainerTitle">
           <label htmlFor="titleInput">Title:</label>

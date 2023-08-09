@@ -1,0 +1,80 @@
+#ChatPageDiv {
+  height: 100%;
+}
+#ChatDiv {
+  box-sizing: border-box;
+  padding: 1%;
+  height: 90vh;
+  min-height: 500px;
+  width: 80%;
+  max-width: 712px;
+  min-width: 100px;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column; /* Changed from row to column to stack the children vertically */
+  justify-content: space-around;
+  border: var(--c3) 4px solid;
+  border-radius: 36px;
+  background: #001c30;
+  box-shadow: 13px 13px 29px #001422, -13px -13px 29px #00243e;
+}
+#DmName {
+  display: flex;
+  height: 8%;
+  align-items: center;
+  justify-content: center;
+  gap: 5%;
+  border-bottom: var(--c2) solid 2px;
+  position: relative;
+}
+#messageContainer {
+  height: 85%;
+}
+#AddCommentContainer {
+  display: flex;
+  height: 10%;
+  width: 100%;
+  border-top: var(--c2) solid 2px;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+#addMessageInput {
+  width: 80%;
+  height: 70%;
+  font-size: 9px;
+  word-break: break-word;
+  overflow-y: scroll;
+  background-color: transparent;
+  color: white;
+  border: var(--c3) 1px solid;
+  border-radius: 5px;
+}
+#addMessageInput::-webkit-scrollbar {
+  width: 3px;
+}
+
+#addMessageInput::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+#addMessageInput::-webkit-scrollbar-thumb {
+  background-color: var(--c3);
+  border-radius: 3px;
+}
+
+#SendMessage {
+  filter: invert(99%) sepia(67%) saturate(7292%) hue-rotate(154deg)
+    brightness(84%) contrast(88%);
+  height: 60%;
+}
+#FriendLogo {
+  height: 80%;
+  object-fit: contain;
+  border: var(--c4) solid 1px;
+  border-radius: 46px;
+}
+#FriendName {
+  color: var(--c4);
+  font-size: 25px;
+}

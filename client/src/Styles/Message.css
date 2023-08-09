@@ -1,0 +1,32 @@
+#MessageDiv {
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 10px;
+}
+#MessageContentContainer {
+  box-sizing: border-box;
+  padding: 3%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border: var(--c3) 2px solid;
+  border-radius: 36px;
+  background: #001c30;
+  box-shadow: 13px 13px 29px #001422, -13px -13px 29px #00243e;
+}
+#messageContainer {
+  height: 85%;
+}
+
+#MessageImage {
+  max-height: 180px;
+}
+#CommentLogo {
+  width: 10%;
+  border: var(--c4) solid 1px;
+  border-radius: 46px;
+  padding: 2px;
+}

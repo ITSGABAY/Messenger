@@ -1,13 +1,14 @@
 #Comment {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   padding: 5px;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+  gap: 10px;
 }
 #CommentLogo {
-  width: 10%;
+  width: 13%;
   border: var(--c4) solid 1px;
   border-radius: 46px;
   padding: 2px;
@@ -29,6 +30,6 @@
   padding-right: 3px;
   align-content: space-between;
   justify-content: space-around;
-  align-items: flex-end;
+  align-items: flex-start;
   width: 90%;
 }

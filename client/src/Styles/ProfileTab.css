@@ -1,11 +1,10 @@
-#ProfileTabContainer {
+#ProfileCardContainer {
   height: 200px;
   width: 550px;
   margin: 20px;
 }
 
 #profileContainer {
-  padding: 200px;
   box-sizing: border-box;
   padding: 1%;
   height: 100%;
