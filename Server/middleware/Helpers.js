@@ -116,7 +116,13 @@ const findProfileByName = async (profileName) => {
   return profilesList;
 };
 
-const addMessage = async (text, image, SenderId, ReceiverId) => {
+const addMessage = async (text, image, SenderId, ReceiverName) => {
+  const ReceiverUser = await Users.findOne({
+    where: { username: ReceiverName },
+  });
+  console.log("ReceiverUser::: ", ReceiverUser);
+  const ReceiverId = ReceiverUser.id;
+
   console.log(
     "text, image, SenderId, ReceiverId::: ",
     text,
@@ -124,11 +130,12 @@ const addMessage = async (text, image, SenderId, ReceiverId) => {
     SenderId,
     ReceiverId
   );
+
   Messages.create({
     ChatCode:
       SenderId > ReceiverId
         ? `${SenderId}&${ReceiverId}`
-        : `${ReceiverId}:${SenderId}`,
+        : `${ReceiverId}&${SenderId}`,
     Text: text,
     Image: image,
     SenderId: SenderId,
@@ -136,7 +143,33 @@ const addMessage = async (text, image, SenderId, ReceiverId) => {
   });
 };
 
+const getMessages = async (SenderId, friendName) => {
+  const friendUser = await Users.findOne({
+    where: { username: friendName },
+  });
+  const friendId = friendUser.id;
+  const ChatCode =
+    SenderId > friendId ? `${SenderId}&${friendId}` : `${friendId}&${SenderId}`;
+  console.log("ChatCode::: ", ChatCode);
+
+  const messagesObj = await Messages.findAll({
+    where: {
+      ChatCode: ChatCode,
+    },
+  });
+  const messageList = messagesObj.map((message) => {
+    return {
+      SenderId: message.SenderId,
+      ReceiverId: message.ReceiverId,
+      Text: message.Text,
+      Image: message.Image,
+    };
+  });
+  return messageList;
+};
+
 module.exports = {
+  getMessages,
   addMessage,
   findProfileByName,
   findPostByTitle,

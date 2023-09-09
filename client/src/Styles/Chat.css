@@ -8,7 +8,7 @@
   min-height: 500px;
   width: 80%;
   max-width: 712px;
-  min-width: 100px;
+  min-width: 400px;
   margin: 10px auto;
   display: flex;
   flex-direction: column; /* Changed from row to column to stack the children vertically */
@@ -17,7 +17,29 @@
   border-radius: 36px;
   background: #001c30;
   box-shadow: 13px 13px 29px #001422, -13px -13px 29px #00243e;
+  scroll-snap-type: y mandatory;
+  overflow: auto;
 }
+
+#PostCommentsContainer::-webkit-scrollbar {
+  width: 5px;
+}
+
+#PostCommentsContainer::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 15px;
+  width: 15px;
+}
+
+#PostCommentsContainer::-webkit-scrollbar-thumb {
+  background-color: var(--c4);
+  border-radius: 10px;
+}
+
+#PostCommentsContainer::-webkit-scrollbar-thumb:hover {
+  background-color: var(--c4);
+}
+
 #DmName {
   display: flex;
   height: 8%;

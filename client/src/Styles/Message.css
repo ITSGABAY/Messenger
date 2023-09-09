@@ -1,10 +1,11 @@
 #MessageDiv {
   height: fit-content;
-  width: 100%;
+  width: 90%;
   display: flex;
   gap: 10px;
   align-items: center;
   margin: 10px;
+  overflow: hidden;
 }
 #MessageContentContainer {
   box-sizing: border-box;
@@ -16,6 +17,7 @@
   border-radius: 36px;
   background: #001c30;
   box-shadow: 13px 13px 29px #001422, -13px -13px 29px #00243e;
+  overflow: hidden;
 }
 #messageContainer {
   height: 85%;
@@ -23,6 +25,7 @@
 
 #MessageImage {
   max-height: 180px;
+  border-radius: 10px;
 }
 #CommentLogo {
   width: 10%;
