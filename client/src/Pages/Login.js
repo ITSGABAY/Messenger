@@ -25,7 +25,7 @@ function Login() {
       axios.post("http://localhost:3001/auth/login", data).then((response) => {
         dispatch(
           login({
-            userId: data.userId,
+            userId: response.data.userId,
             username: data.username,
             logoImage: data.logoImage,
           })

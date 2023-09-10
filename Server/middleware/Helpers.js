@@ -120,16 +120,7 @@ const addMessage = async (text, image, SenderId, ReceiverName) => {
   const ReceiverUser = await Users.findOne({
     where: { username: ReceiverName },
   });
-  console.log("ReceiverUser::: ", ReceiverUser);
   const ReceiverId = ReceiverUser.id;
-
-  console.log(
-    "text, image, SenderId, ReceiverId::: ",
-    text,
-    image,
-    SenderId,
-    ReceiverId
-  );
 
   Messages.create({
     ChatCode:
@@ -150,7 +141,6 @@ const getMessages = async (SenderId, friendName) => {
   const friendId = friendUser.id;
   const ChatCode =
     SenderId > friendId ? `${SenderId}&${friendId}` : `${friendId}&${SenderId}`;
-  console.log("ChatCode::: ", ChatCode);
 
   const messagesObj = await Messages.findAll({
     where: {

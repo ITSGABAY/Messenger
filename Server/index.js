@@ -1,6 +1,36 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const http = require("http");
+const socketIo = require("socket.io");
+
+const server = http.createServer(app);
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
+
+io.on("connection", (socket) => {
+  const msgFilter = socket.handshake.query.msgFilter;
+  socket.join(msgFilter);
+
+  console.log("Socket Created " + msgFilter);
+
+  socket.on("clientToServer", (data) => {
+    console.log("data clientToServer ::: ", data);
+    io.to(data.msgFilter).emit("serverToClient", {
+      text: data.text,
+      image: data.image,
+    });
+  });
+
+  socket.on("disconnect", () => {
+    console.log(msgFilter + " disconnected");
+  });
+});
 
 app.use(express.json());
 const corsOptions = {
@@ -27,7 +57,7 @@ app.use("/profile", profileRouter);
 app.use("/search", searchRouter);
 app.use("/chat", chatRouter);
 db.sequelize.sync().then(() => {
-  app.listen(3001, () => {
+  server.listen(3001, () => {
     console.log("Server running on port 3001");
   });
 });

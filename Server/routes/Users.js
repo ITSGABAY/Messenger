@@ -46,16 +46,17 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   const { username, password, email } = req.body;
+  console.log("req.body::: ", req.body);
   const user = await Users.findOne({ where: { username: username } });
   if (!user) {
-    bcrypt.hash(password, 10).then((hash) => {
-      Users.create({
+    bcrypt.hash(password, 10).then(async (hash) => {
+      await Users.create({
         username: username,
         password: hash,
         email: email,
       });
     });
-    Profiles.create({
+    await Profiles.create({
       userName: username,
     });
     res.json({ Success: "True" });
