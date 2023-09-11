@@ -1,4 +1,4 @@
-#MessageDiv {
+#UserMessageDiv {
   height: fit-content;
   width: 90%;
   display: flex;
@@ -7,16 +7,41 @@
   margin: 10px;
   overflow: hidden;
 }
-#MessageContentContainer {
+#FriendMessageDiv {
+  height: fit-content;
+  width: 90%;
+  display: flex;
+  flex-direction: row-reverse;
+
+  gap: 10px;
+  align-items: center;
+  margin: 10px;
+  overflow: hidden;
+}
+
+#UserMessageContentContainer {
   box-sizing: border-box;
   padding: 3%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  border: var(--c3) 2px solid;
+  border: #0095ff 2px solid;
   border-radius: 36px;
   background: #001c30;
-  box-shadow: 13px 13px 29px #001422, -13px -13px 29px #00243e;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+#FriendMessageContentContainer {
+  box-sizing: border-box;
+  padding: 3%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border: #00355a 2px solid;
+  border-radius: 36px;
+  background: #001c30;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 #messageContainer {
@@ -26,6 +51,8 @@
 #MessageImage {
   max-height: 180px;
   border-radius: 10px;
+  object-fit: contain;
+  width: 100%;
 }
 #CommentLogo {
   width: 10%;

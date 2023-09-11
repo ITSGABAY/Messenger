@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "GABAY123",
-    "database": "messengerdatabase",
+    "password": "gabay123",
+    "database": "messenger",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "logging": false

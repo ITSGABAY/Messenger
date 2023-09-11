@@ -2,12 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import NavBar from "./NavBar";
 import submitIcon from "../Resources/Images/message.png";
 import defaultLogo from "../Resources/Images/defaultLogo.png";
-import Message from "../Components/Message";
+import UserMessage from "../Components/UserMessage";
+import FriendMessage from "../Components/FriendMessage";
 import axios from "axios";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import io from "socket.io-client";
 function Chat() {
+  const Navigator = useNavigate();
   const MessageRef = useRef("");
   const imageRef = useRef(null);
   const [messages, setMessages] = useState([]);
@@ -24,13 +26,16 @@ function Chat() {
     }
   };
   useEffect(() => {
+    console.log("friendName == username::: ", friendName, username);
+    if (friendName == username) {
+      Navigator(`profile/${friendName}`);
+    }
     const msgFilter = `${friendName}>${username}`;
     const newSocket = io("http://localhost:3001", {
       query: { msgFilter },
     });
     setSocket(newSocket);
     newSocket.on("serverToClient", (message) => {
-      console.log("message::: ", message);
       setMessages((prevMessages) => [
         ...prevMessages,
         { Text: message.text, Image: message.image },
@@ -62,7 +67,12 @@ function Chat() {
         data.image = imageRef.current.files[0];
       }
 
-      console.log("data::: ", data);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { Text: data.text, Image: data.image },
+      ]);
+
+      console.log(messages);
 
       if (socket) {
         socket.emit("clientToServer", data);
@@ -101,15 +111,22 @@ function Chat() {
           </div>
           <div id="messageContainer">
             {messages.map((message) => {
-              console.log(message);
               if (message.Image) {
-                const buffer = message.Image.data || message.Image;
-                var arrayBufferView = new Uint8Array(buffer);
-                var blob = new Blob([arrayBufferView], { type: "image/png" });
-                var urlCreator = window.URL || window.webkitURL;
-                var imageUrl = urlCreator.createObjectURL(blob);
+                if (message.Image instanceof File) {
+                  imageUrl = URL.createObjectURL(message.Image);
+                } else {
+                  const buffer = message.Image.data || message.Image;
+                  var arrayBufferView = new Uint8Array(buffer);
+                  var blob = new Blob([arrayBufferView], { type: "image/png" });
+                  var urlCreator = window.URL || window.webkitURL;
+                  var imageUrl = urlCreator.createObjectURL(blob);
+                }
               }
-              return <Message text={message.Text} Image={imageUrl} />;
+              return message.SenderId == userId ? (
+                <UserMessage text={message.Text} Image={imageUrl} />
+              ) : (
+                <FriendMessage text={message.Text} Image={imageUrl} />
+              );
             })}
           </div>
           <div id="AddCommentContainer">

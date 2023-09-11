@@ -12,6 +12,8 @@ import "./Styles/ProfileTab.css";
 import "./Styles/SearchPage.css";
 import "./Styles/Chat.css";
 import "./Styles/Message.css";
+import "./Styles/NotFound.css";
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -26,14 +28,21 @@ import Upload from "./Pages/upload";
 import Profile from "./Pages/Profile";
 import PostMain from "./Pages/PostMain";
 import CreatePost from "./Pages/CreatePost";
+import SearchPage from "./Pages/SearchPage";
+import NotFound from "./Pages/NotFound";
 import Chat from "./Pages/Chat";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import SearchPage from "./Pages/SearchPage";
 
 function App() {
   const router = createBrowserRouter([
-    { path: "/", element: <NavBar /> },
+    {
+      errorElement: <NotFound />,
+    },
+    {
+      path: "/",
+      element: <Login />,
+    },
     {
       path: "/login",
       element: <Login />,
@@ -70,9 +79,7 @@ function App() {
 
   return (
     <Provider store={store}>
-      <RouterProvider router={router}>
-        <NavBar />
-      </RouterProvider>
+      <RouterProvider router={router}></RouterProvider>
     </Provider>
   );
 }
