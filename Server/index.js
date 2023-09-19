@@ -43,19 +43,21 @@ app.use(cors(corsOptions));
 const db = require("./models");
 
 const usersRouter = require("./routes/Users");
-const uploadController = require("./routes/uploadController");
 const postRouter = require("./routes/Posts");
 const profileRouter = require("./routes/Profile");
 const commentRouter = require("./routes/Comments");
 const searchRouter = require("./routes/Search");
 const chatRouter = require("./routes/Chat");
+const homeRouter = require("./routes/Home");
+
 app.use("/auth", usersRouter);
-app.use("/upload", uploadController);
 app.use("/post", postRouter);
 app.use("/comment", commentRouter);
 app.use("/profile", profileRouter);
 app.use("/search", searchRouter);
 app.use("/chat", chatRouter);
+app.use("/home", homeRouter);
+
 db.sequelize.sync().then(() => {
   server.listen(3001, () => {
     console.log("Server running on port 3001");

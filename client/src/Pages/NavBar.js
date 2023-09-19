@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import defaultLogo from "../Resources/Images/defaultLogo.png";
@@ -9,6 +9,7 @@ function NavBar() {
   const { isAuthenticated, userId, username, logoImage } = useSelector(
     (state) => state.auth
   );
+
   return (
     <nav id="NavBar">
       <div id="NavBarimageFrame">
@@ -30,9 +31,7 @@ function NavBar() {
           </button>
         </li>
         <li>
-          <button onClick={() => Navigator("/about")} className="AB">
-            About
-          </button>
+          <button onClick={() => Navigator("/about")}>About</button>
         </li>
         <li>
           <button onClick={() => Navigator("/services")} className="AB">

@@ -8,12 +8,12 @@
   gap: 10px;
 }
 #CommentLogo {
-  width: 13%;
+  width: 25px;
+  height: 25px;
   border: var(--c4) solid 1px;
   border-radius: 46px;
-  padding: 2px;
+  padding: 0.5px;
 }
-
 #CommentUserName {
   font-size: 13px;
 }

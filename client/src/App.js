@@ -2,7 +2,6 @@ import "./App.css";
 import "./Styles/Login.css";
 import "./Styles/NavBar.css";
 import "./Styles/Registration.css";
-import "./Styles/upload.css";
 import "./Styles/Post.css";
 import "./Styles/Profile.css";
 import "./Styles/CreatePost.css";
@@ -13,6 +12,8 @@ import "./Styles/SearchPage.css";
 import "./Styles/Chat.css";
 import "./Styles/Message.css";
 import "./Styles/NotFound.css";
+import "./Styles/Home.css";
+import "./Styles/EditProfile.css";
 
 import {
   createBrowserRouter,
@@ -24,12 +25,13 @@ import {
 import Login from "./Pages/Login";
 import NavBar from "./Pages/NavBar";
 import Registration from "./Pages/Registration";
-import Upload from "./Pages/upload";
+import Home from "./Pages/Home";
 import Profile from "./Pages/Profile";
 import PostMain from "./Pages/PostMain";
 import CreatePost from "./Pages/CreatePost";
 import SearchPage from "./Pages/SearchPage";
 import NotFound from "./Pages/NotFound";
+import EditProfile from "./Pages/EditProfile";
 import Chat from "./Pages/Chat";
 import { Provider } from "react-redux";
 import { store } from "./store";
@@ -41,7 +43,7 @@ function App() {
     },
     {
       path: "/",
-      element: <Login />,
+      element: <Home />,
     },
     {
       path: "/login",
@@ -51,10 +53,7 @@ function App() {
       path: "/register",
       element: <Registration />,
     },
-    {
-      path: "/upload",
-      element: <Upload />,
-    },
+
     {
       path: "/profile/:profileName",
       element: <Profile />,
@@ -66,6 +65,10 @@ function App() {
     {
       path: "/createpost",
       element: <CreatePost />,
+    },
+    {
+      path: "/editprofile",
+      element: <EditProfile />,
     },
     {
       path: "/search/:searchValue",

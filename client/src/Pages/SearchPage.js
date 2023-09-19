@@ -29,7 +29,6 @@ function SearchPage() {
         })
         .catch((err) => {
           if (err.response.status) {
-            console.log("err::: ", err);
             Navigator("/login");
           }
         });

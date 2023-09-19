@@ -17,7 +17,7 @@ router.post("/create/:postid", validateToken, async (req, res) => {
     PostId: postId,
   });
 
-  res.send(await getCommentsByPostId(postId));
+  res.json();
 });
 
 module.exports = router;

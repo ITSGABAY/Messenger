@@ -96,8 +96,8 @@
 #PostCommentsContainer {
   height: 70%;
   scroll-snap-type: y mandatory;
-  overflow: auto;
   border-radius: 10px;
+  overflow: auto;
 }
 
 #PostCommentsContainer::-webkit-scrollbar {

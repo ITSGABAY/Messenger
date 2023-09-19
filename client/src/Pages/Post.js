@@ -1,35 +1,47 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import defaultLogo from "../Resources/Images/defaultLogo.png";
-import submitIcon from "../Resources/Images/message.png";
+import submitIcon from "../Resources/Images/comment.png";
 import Comment from "../Components/Comment";
 import { useNavigate, useMatch } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Post({ postData }) {
   const commentRef = useRef(null);
   const [comments, setComments] = useState([]);
-  const [details, setDetails] = useState({});
+  const [details, setDetails] = useState({ logoImage: null });
   const Navigator = useNavigate();
   const match = useMatch("/post/:postId");
+  const { isAuthenticated, userId, username } = useSelector(
+    (state) => state.auth
+  );
+
   useEffect(() => {
+    let logoImageUrl = null;
     if (postData && postData.comments) {
       const buffer = postData.image.data;
       var arrayBufferView = new Uint8Array(buffer);
       var blob = new Blob([arrayBufferView], { type: "image/png" });
       var urlCreator = window.URL || window.webkitURL;
-      var imageUrl = urlCreator.createObjectURL(blob);
-
-      setDetails({
-        postId: postData.id,
-        postImage: imageUrl,
-        logoImage: null,
-        title: postData.title,
-        description: postData.description,
-        userName: postData.username,
-        comments: postData.comments,
-      });
-      setComments(postData.comments);
+      var postImageUrl = urlCreator.createObjectURL(blob);
     }
+    if (postData.logoImage) {
+      const buffer = postData.logoImage.data;
+      var arrayBufferView = new Uint8Array(buffer);
+      var blob = new Blob([arrayBufferView], { type: "image/png" });
+      var urlCreator = window.URL || window.webkitURL;
+      logoImageUrl = urlCreator.createObjectURL(blob);
+    }
+    setDetails({
+      postId: postData.id,
+      postImage: postImageUrl,
+      logoImage: logoImageUrl,
+      title: postData.title,
+      description: postData.description,
+      userName: postData.username,
+      comments: postData.comments,
+    });
+    setComments(postData.comments);
   }, [postData]);
 
   const SubmitComment = () => {
@@ -39,10 +51,18 @@ function Post({ postData }) {
         comment: comment,
       })
       .then((response) => {
-        setComments(response.data);
+        setComments((prevComments) => [
+          ...prevComments,
+          { text: comment, username: username },
+        ]);
+
         commentRef.current.value = "";
       })
-      .catch();
+      .catch((err) => {
+        if (err.response.status) {
+          Navigator("/login");
+        }
+      });
   };
 
   return (
@@ -60,7 +80,11 @@ function Post({ postData }) {
       <div id="PostRightSide">
         <div id="PostRightSideTop">
           <div id="PostRightSideTopProfile">
-            <img src={defaultLogo} id="PostImageLogo" alt="Profile" />
+            <img
+              src={details.logoImage ? details.logoImage : defaultLogo}
+              id="PostImageLogo"
+              alt="Profile"
+            />
             <label id="PostProfileName">{details.userName}</label>
           </div>
           <div id="PostRightSideTopInfo">
@@ -70,12 +94,20 @@ function Post({ postData }) {
         </div>
         <div id="PostCommentsContainer">
           {comments.map((comment) => {
+            let commentLogo = null;
+            if (comment.logoImage) {
+              const buffer = comment.logoImage.data;
+              var arrayBufferView = new Uint8Array(buffer);
+              var blob = new Blob([arrayBufferView], { type: "image/png" });
+              var urlCreator = window.URL || window.webkitURL;
+              commentLogo = urlCreator.createObjectURL(blob);
+            }
             return (
               <Comment
                 key={comment.id}
                 text={comment.text}
                 username={comment.username}
-                logo={comment.logoImage}
+                logo={commentLogo}
               />
             );
           })}

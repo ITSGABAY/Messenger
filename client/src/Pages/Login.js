@@ -22,17 +22,37 @@ function Login() {
         username: values.username,
         password: values.password,
       };
-      axios.post("http://localhost:3001/auth/login", data).then((response) => {
-        dispatch(
-          login({
-            userId: response.data.userId,
-            username: data.username,
-            logoImage: data.logoImage,
-          })
-        );
-
-        Navigator(`/profile/${data.username}`);
-      });
+      axios
+        .post("http://localhost:3001/auth/login", data)
+        .then((response) => {
+          var imageUrl = null;
+          console.log(response.data.description);
+          if (response.status === 200) {
+            if (response.data.logoImage) {
+              const buffer = response.data.logoImage.data;
+              var arrayBufferView = new Uint8Array(buffer);
+              var blob = new Blob([arrayBufferView], { type: "image/png" });
+              var urlCreator = window.URL || window.webkitURL;
+              var imageUrl = urlCreator.createObjectURL(blob);
+            }
+            dispatch(
+              login({
+                userId: response.data.userId,
+                username: response.data.username,
+                logoImage: imageUrl,
+                description: response.data.description,
+              })
+            );
+            Navigator("/");
+          }
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 400) {
+            console.error(error.response.data.error);
+          } else {
+            console.error("Unexpected error:", error.message);
+          }
+        });
     },
   });
 

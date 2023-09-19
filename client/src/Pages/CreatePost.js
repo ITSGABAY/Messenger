@@ -1,12 +1,21 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
+import { useSelector } from "react-redux";
 
 axios.defaults.withCredentials = true;
 
 function CreatePost() {
   const Navigator = useNavigate();
+  const { isAuthenticated, userId, username } = useSelector(
+    (state) => state.auth
+  );
+  useEffect(() => {
+    if (!isAuthenticated) {
+      Navigator("/login");
+    }
+  });
 
   const titleRef = useRef("");
   const descriptionRef = useRef("");
@@ -30,7 +39,6 @@ function CreatePost() {
       })
       .catch((err) => {
         if (err.response.status) {
-          console.log("err::: ", err);
           Navigator("/login");
         }
       });

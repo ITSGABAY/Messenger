@@ -22,26 +22,25 @@ const {
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = await Users.findOne({ where: { username: username } });
+
   if (!user) {
-    res.json({ error: "User Doesn't Exist" });
-  } else {
-    bcrypt.compare(password, user.password).then(async (match) => {
-      if (!match) {
-        res.json({ error: "Wrong Username And Password Combination" });
-      } else {
-        const id = user.id;
-        const token = createTokens({ username: username, id: id });
-        const email = user.email;
-        res.cookie("access-token", token, { maxAge: 600000, httpOnly: true });
-        const data = {
-          username: username,
-          userId: user.id,
-          logoImage: await getUserDataById(user.id).logoImage,
-        };
-        res.send(data);
-      }
-    });
+    return res.status(400).json({ error: "User Doesn't Exist" });
   }
+
+  bcrypt.compare(password, user.password).then(async (match) => {
+    if (!match) {
+      return res
+        .status(400)
+        .json({ error: "Wrong Username And Password Combination" });
+    }
+
+    const id = user.id;
+    const token = createTokens({ username: username, id: id });
+    const email = user.email;
+    res.cookie("access-token", token, { maxAge: 1800000, httpOnly: true });
+
+    res.status(200).send(await getUserDataById(user.id));
+  });
 });
 
 router.post("/register", async (req, res) => {

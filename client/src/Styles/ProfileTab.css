@@ -21,13 +21,12 @@
 }
 
 #imageFrame {
-  width: 25%;
+  width: 120px;
+  height: 120px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 3%;
 }
-
 #profileRightSide {
   display: flex;
   flex-direction: column;
@@ -41,10 +40,28 @@
   margin: 3%;
   color: var(--c4);
 }
-
 #ProfileDescription {
   width: 248px;
   text-align: center;
   font-size: 15px;
   color: var(--c4);
+}
+#profileCardButtonContainer {
+  width: 5%;
+  display: flex;
+  gap: 10px;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+}
+#createAPostBtn {
+  filter: invert(96%) sepia(4%) saturate(3665%) hue-rotate(169deg)
+    brightness(107%) contrast(101%);
+}
+#editProfile {
+  filter: invert(96%) sepia(4%) saturate(3665%) hue-rotate(169deg)
+    brightness(107%) contrast(101%);
+}
+#messageBtn {
+  filter: invert(96%) sepia(4%) saturate(3665%) hue-rotate(169deg)
+    brightness(107%) contrast(101%);
 }

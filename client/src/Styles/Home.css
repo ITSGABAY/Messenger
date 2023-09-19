@@ -1,0 +1,131 @@
+#homePageDiv {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100%;
+  min-width: 1200px;
+  max-width: 2100px;
+  height: -moz-fit-content;
+  height: fit-content;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 20px;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#homeRightSide {
+  width: 30%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+#homeMiddleSide {
+  width: 60%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+#HomePostsContainer {
+  width: 80%;
+  max-width: 810px;
+  min-width: 600px;
+  margin-top: 40px;
+}
+#homeLeftSide {
+  width: 30%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+#randomUsersContainer {
+  height: 80%;
+  width: 90%;
+  min-width: 200px;
+  min-height: 300px;
+  max-width: 300px;
+  max-height: 450px;
+  background-color: var(--c1);
+  border: var(--c3) 4px solid;
+  border-radius: 36px;
+  background: #001c30;
+  box-shadow: 13px 13px 29px #001422, -13px -13px 29px #00243e;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+  margin-top: 80px;
+}
+#randomUserContainer {
+  height: 20%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#randomUserImage {
+  border: var(--c3) 4px solid;
+  border-radius: 36px;
+  background: #001c30;
+  box-shadow: 13px 13px 29px #001422, -13px -13px 29px #00243e;
+  width: 70px;
+  height: 70px;
+  margin-left: 3%;
+}
+#randomUserName {
+  font-size: 20px;
+}
+#homeUserContainer {
+  height: 80%;
+  width: 90%;
+  min-width: 200px;
+  min-height: 300px;
+  max-width: 300px;
+  max-height: 450px;
+  background-color: var(--c1);
+  border: var(--c3) 4px solid;
+  border-radius: 36px;
+  background: #001c30;
+  box-shadow: 13px 13px 29px #001422, -13px -13px 29px #00243e;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+  margin-top: 80px;
+}
+#homeUserContainer {
+  height: 80%;
+  width: 90%;
+  min-width: 200px;
+  min-height: 300px;
+  max-width: 300px;
+  max-height: 450px;
+  background-color: var(--c1);
+  border: var(--c3) 4px solid;
+  border-radius: 36px;
+  background: #001c30;
+  box-shadow: 13px 13px 29px #001422, -13px -13px 29px #00243e;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+  align-items: center;
+  gap: 20px;
+}
+#homeUserImage {
+  border: var(--c3) 4px solid;
+  border-radius: 78px;
+  background: #001c30;
+  box-shadow: 13px 13px 29px #001422, -13px -13px 29px #00243e;
+  width: 50%;
+  margin-top: 5%;
+}
+#homeUserName {
+  font-size: 40px;
+}
+#homeUserDescription {
+  font-size: 16px;
+  width: 90%;
+  color: var(--c4);
+}

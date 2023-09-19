@@ -1,14 +1,18 @@
 import React from "react";
 import defaultLogo from "../Resources/Images/defaultLogo.png";
+import addPost from "../Resources/Images/add-post.png";
+import editBtn from "../Resources/Images/edit.png";
+import messageBtn from "../Resources/Images/message.png";
 import { useMatch, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux"; // Add this import
+import { useSelector } from "react-redux";
 
 function ProfileCard(props) {
   const match = useMatch("/profile/:profileName");
   const Navigator = useNavigate();
-  const { isAuthenticated, userId, username, logoImage } = useSelector(
+  const { isAuthenticated, userId, username } = useSelector(
     (state) => state.auth
   );
+
   return (
     <div>
       <div id="profileContainer" className="ProfilePageContainer">
@@ -45,13 +49,28 @@ function ProfileCard(props) {
           >
             {props.description}
           </label>
+        </div>
+        <div id="profileCardButtonContainer">
           {username != props.username && (
-            <button
+            <img
               id="messageBtn"
               onClick={() => Navigator(`/chat/${props.username}`)}
-            >
-              Message
-            </button>
+              src={messageBtn}
+            ></img>
+          )}
+          {username == props.username && (
+            <img
+              id="createAPostBtn"
+              onClick={() => Navigator(`/createpost`)}
+              src={addPost}
+            />
+          )}
+          {username == props.username && (
+            <img
+              id="editProfile"
+              onClick={() => Navigator(`/editprofile`)}
+              src={editBtn}
+            />
           )}
         </div>
       </div>

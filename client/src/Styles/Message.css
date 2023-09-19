@@ -54,9 +54,3 @@
   object-fit: contain;
   width: 100%;
 }
-#CommentLogo {
-  width: 10%;
-  border: var(--c4) solid 1px;
-  border-radius: 46px;
-  padding: 2px;
-}

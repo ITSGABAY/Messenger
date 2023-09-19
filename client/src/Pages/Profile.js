@@ -7,32 +7,36 @@ import { useSelector } from "react-redux";
 import ProfileCard from "../Components/ProfileCard";
 function Profile() {
   const [profileData, setProfileData] = useState({ posts: [] });
-  const { isAuthenticated, userId, username } = useSelector(
-    (state) => state.auth
-  );
+  const { isAuthenticated, userId, username, description, logoImage } =
+    useSelector((state) => state.auth);
   const Navigator = useNavigate();
   const { profileName } = useParams();
 
   useEffect(() => {
-    //runs twice because of react strict mode
     if (!isAuthenticated) {
       Navigator("/login");
     } else {
       axios
         .get(`http://localhost:3001/profile/getprofiledata/${profileName}`)
         .then(async (response) => {
+          let imageUrlLogo = null;
+          if (response.data.logoImage) {
+            const buffer = response.data.logoImage.data;
+            var arrayBufferView = new Uint8Array(buffer);
+            var blob = new Blob([arrayBufferView], { type: "image/png" });
+            var urlCreator = window.URL || window.webkitURL;
+            imageUrlLogo = urlCreator.createObjectURL(blob);
+          }
           await setProfileData({
             username: response.data.username,
             id: response.data.id,
             posts: response.data.posts,
             description: response.data.description,
-            logoImage: response.data.logoImage,
+            logoImage: imageUrlLogo,
           });
         })
         .catch((err) => {
           if (err.response.status) {
-            console.log("err::: ", err);
-
             Navigator("/login");
           }
         });
@@ -42,7 +46,7 @@ function Profile() {
   return (
     <div>
       <NavBar />
-      <div className="PageDiv">
+      <div id="ProfilePageDiv">
         <div id="ProfileCardContainer">
           <ProfileCard
             username={profileData.username}

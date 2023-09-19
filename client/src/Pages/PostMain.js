@@ -3,24 +3,31 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import Post from "./Post";
 import NavBar from "./NavBar";
+import { useSelector } from "react-redux";
 
 function PostMain() {
   const [postData, setPostData] = useState(null);
   const Navigator = useNavigate();
   const { postId } = useParams();
+  const { isAuthenticated, userId, username } = useSelector(
+    (state) => state.auth
+  );
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3001/post/getpostbypostid/${postId}`)
-      .then(async (response) => {
-        setPostData(response.data);
-      })
-      .catch((err) => {
-        if (err.response.status) {
-          console.log("err::: ", err);
-          Navigator("/login");
-        }
-      });
+    if (!isAuthenticated) {
+      Navigator("/login");
+    } else {
+      axios
+        .get(`http://localhost:3001/post/getpostbypostid/${postId}`)
+        .then(async (response) => {
+          setPostData(response.data);
+        })
+        .catch((err) => {
+          if (err.response.status) {
+            Navigator("/login");
+          }
+        });
+    }
   }, []);
 
   return (

@@ -26,34 +26,42 @@ function Chat() {
     }
   };
   useEffect(() => {
-    console.log("friendName == username::: ", friendName, username);
-    if (friendName == username) {
-      Navigator(`profile/${friendName}`);
-    }
-    const msgFilter = `${friendName}>${username}`;
-    const newSocket = io("http://localhost:3001", {
-      query: { msgFilter },
-    });
-    setSocket(newSocket);
-    newSocket.on("serverToClient", (message) => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { Text: message.text, Image: message.image },
-      ]);
-      console.log("Messages::: ", messages);
-    });
-
-    axios
-      .post(`http://localhost:3001/chat/getMessages/${friendName}`)
-      .then((response) => {
-        setMessages(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
+    if (!isAuthenticated) {
+      Navigator("/login");
+    } else {
+      if (friendName == username) {
+        Navigator(`profile/${friendName}`);
+      }
+      const msgFilter = `${friendName}>${username}`;
+      const newSocket = io("http://localhost:3001", {
+        query: { msgFilter },
       });
-    return () => {
-      newSocket.close();
-    };
+      setSocket(newSocket);
+      newSocket.on("serverToClient", (message) => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { Text: message.text, Image: message.image },
+        ]);
+        console.log("Messages::: ", messages);
+      });
+
+      axios
+        .post(`http://localhost:3001/chat/getMessages/${friendName}`)
+        .then((response) => {
+          setMessages(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .catch((err) => {
+          if (err.response.status) {
+            Navigator("/login");
+          }
+        });
+      return () => {
+        newSocket.close();
+      };
+    }
   }, []);
 
   const SendMessage = () => {

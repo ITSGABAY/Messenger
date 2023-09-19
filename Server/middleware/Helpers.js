@@ -1,10 +1,69 @@
 const { Users, Profiles, Comments, Posts, Messages } = require("../models");
 const { Op } = require("sequelize");
+const { Sequelize, SequelizeUniqueConstraintError } = require("sequelize");
 
 const getUserDataById = async (id) => {
   return Profiles.findByPk(parseInt(id)).then((profile) => {
-    return { userName: profile.userName, LogoImage: profile.logoImage };
+    return {
+      userId: id,
+      username: profile.userName,
+      logoImage: profile.logoImage,
+      description: profile.description,
+    };
   });
+};
+
+const editProfile = async (data) => {
+  console.log("🚀 ~ file: Helpers.js:18 ~ editProfile ~ data:", data);
+
+  Profiles.findByPk(parseInt(data.id)).then((profile) => {
+    if (data.description != profile.description) {
+      profile.description = data.description;
+    }
+
+    profile.logoImage = data.image;
+
+    if (profile.userName != data.username) {
+      try {
+        profile.userName = data.username;
+        Users.findByPk(parseInt(data.id)).then((user) => {
+          user.username = data.username;
+          console.log(
+            "🚀 ~ file: Helpers.js:31 ~ Users.findByPk ~ user:",
+            user
+          );
+          user.save();
+        });
+      } catch (err) {
+        if (error instanceof SequelizeUniqueConstraintError) {
+          res.status(400).json({ error: "The username already exists." });
+        } else {
+          res.status(500).json({ error: "An unexpected error occurred." });
+        }
+      }
+    }
+    profile.save();
+  });
+  return;
+};
+
+const getRandomProfiles = async (userId) => {
+  const randomProfiles = await Profiles.findAll({
+    where: {
+      id: {
+        [Sequelize.Op.ne]: userId,
+      },
+    },
+    order: Sequelize.literal("RAND()"),
+    limit: 5,
+  });
+
+  const profilesList = randomProfiles.map((profile) => ({
+    username: profile.userName,
+    logoImage: profile.logoImage,
+  }));
+
+  return profilesList;
 };
 
 const getCommentsByPostId = async (postId) => {
@@ -22,9 +81,10 @@ const mapCommentData = async (comment) => {
   const userDetails = await getUserDataById(comment.UserId);
   const data = {
     text: comment.text,
-    username: userDetails.userName,
+    username: userDetails.username,
     logoImage: userDetails.logoImage,
   };
+
   return data;
 };
 
@@ -65,6 +125,20 @@ const getPostsByUserId = async (userId) => {
   const postList = await Promise.all(
     posts.map((post) => mapPostData(post, userDetails))
   );
+  return postList;
+};
+
+const getRandomPosts = async (userId) => {
+  const posts = await Posts.findAll({
+    where: {
+      UserId: {
+        [Sequelize.Op.ne]: userId,
+      },
+    },
+    order: Sequelize.literal("RAND()"),
+    limit: 5,
+  });
+  const postList = await Promise.all(posts.map((post) => mapPostData(post)));
   return postList;
 };
 
@@ -169,4 +243,7 @@ module.exports = {
   getPostsByUserId,
   mapPostData,
   getUserDataById,
+  getRandomPosts,
+  getRandomProfiles,
+  editProfile,
 };
