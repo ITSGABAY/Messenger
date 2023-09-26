@@ -1,26 +1,33 @@
 const express = require("express");
 const router = express.Router();
-const { Users, Profiles } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const {
   createTokens,
   validateToken,
-  getDetails,
+  getIdFromCookie,
 } = require("../middleware/JWT");
 const jwtkey = process.env.jwtkey;
 const {
-  getProfileDataByName,
   getCommentsByPostId,
-  getPostByPostId,
-  getPostsByUserId,
   mapPostData,
   getUserDataById,
 } = require("../middleware/Helpers");
+const { Users, Profiles, Comments, Posts, Messages } = require("../models");
+const { Op } = require("sequelize");
+const { Sequelize, SequelizeUniqueConstraintError } = require("sequelize");
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
+
+  console.log("🚀 ~ file: Users.js:18 ~ router.get ~ req.body:", req);
+
+  console.log("🚀 ~ file: Users.js:18 ~ router.get ~ { username, password }:", {
+    username,
+    password,
+  });
+
   const user = await Users.findOne({ where: { username: username } });
 
   if (!user) {
@@ -41,6 +48,11 @@ router.post("/login", async (req, res) => {
 
     res.status(200).send(await getUserDataById(user.id));
   });
+});
+
+router.get("/validate", validateToken, async (req, res) => {
+  const userId = getIdFromCookie(req);
+  res.status(200).send(await getUserDataById(userId));
 });
 
 router.post("/register", async (req, res) => {

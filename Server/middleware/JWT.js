@@ -14,8 +14,11 @@ const createTokens = (user) => {
 
 const validateToken = (req, res, next) => {
   const cookie = req.headers.cookie;
+
+  console.log("🚀 ~ file: JWT.js:18 ~ validateToken ~ cookie:", cookie);
+
   if (!cookie) {
-    return res.status(400).json({ error: "Cookie not found" });
+    return res.status(401).json({ error: "Cookie not found" });
   }
 
   const accessToken = cookie.split("=")[1];
@@ -29,7 +32,7 @@ const validateToken = (req, res, next) => {
     next();
   } catch (err) {
     return res
-      .status(403)
+      .status(401)
       .json({ error: "Invalid access token", details: err.message });
   }
 };

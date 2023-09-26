@@ -13,6 +13,7 @@ function Chat() {
   const MessageRef = useRef("");
   const imageRef = useRef(null);
   const [messages, setMessages] = useState([]);
+  const [friendLogo, setFriendLogo] = useState(null);
   const { friendName } = useParams();
   const [socket, setSocket] = useState(null);
   let receiverId = null;
@@ -26,42 +27,52 @@ function Chat() {
     }
   };
   useEffect(() => {
-    if (!isAuthenticated) {
-      Navigator("/login");
-    } else {
-      if (friendName == username) {
-        Navigator(`profile/${friendName}`);
-      }
-      const msgFilter = `${friendName}>${username}`;
-      const newSocket = io("http://localhost:3001", {
-        query: { msgFilter },
-      });
-      setSocket(newSocket);
-      newSocket.on("serverToClient", (message) => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { Text: message.text, Image: message.image },
-        ]);
-        console.log("Messages::: ", messages);
-      });
-
-      axios
-        .post(`http://localhost:3001/chat/getMessages/${friendName}`)
-        .then((response) => {
-          setMessages(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .catch((err) => {
-          if (err.response.status) {
-            Navigator("/login");
-          }
-        });
-      return () => {
-        newSocket.close();
-      };
+    if (friendName == username) {
+      Navigator(`profile/${friendName}`);
     }
+    const msgFilter = `${friendName}>${username}`;
+    const newSocket = io("http://localhost:3001", {
+      query: { msgFilter },
+    });
+    setSocket(newSocket);
+    newSocket.on("serverToClient", (message) => {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { Text: message.text, Image: message.image },
+      ]);
+      console.log("Messages::: ", messages);
+    });
+
+    axios
+      .post(`http://localhost:3001/chat/getMessages/${friendName}`)
+      .then((response) => {
+        console.log("🚀 ~ file: Chat.js:49 ~ .then ~ response:", response);
+        let imageUrlLogo = null;
+        if (response.data.friendLogo) {
+          const buffer = response.data.friendLogo.data;
+          var arrayBufferView = new Uint8Array(buffer);
+          var blob = new Blob([arrayBufferView], { type: "image/png" });
+          var urlCreator = window.URL || window.webkitURL;
+          imageUrlLogo = urlCreator.createObjectURL(blob);
+        }
+        setFriendLogo(imageUrlLogo);
+        setMessages(response.data.messagesList);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .catch((err) => {
+        if (
+          err.response.status === 400 ||
+          err.response.status === 401 ||
+          err.response.status === 403
+        ) {
+          Navigator("/login");
+        }
+      });
+    return () => {
+      newSocket.close();
+    };
   }, []);
 
   const SendMessage = () => {
@@ -77,7 +88,7 @@ function Chat() {
 
       setMessages((prevMessages) => [
         ...prevMessages,
-        { Text: data.text, Image: data.image },
+        { Text: data.text, Image: data.image, SenderId: userId },
       ]);
 
       console.log(messages);
@@ -103,8 +114,12 @@ function Chat() {
             text: MessageRef.current.value,
           });
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          if (err.response) {
+            if (err.response.status === 401) {
+              Navigator("/login");
+            }
+          }
         });
     }
   };
@@ -115,6 +130,8 @@ function Chat() {
       <div id="ChatPageDiv">
         <div id="ChatDiv">
           <div id="DmName">
+            <img id="chatFriendLogo" src={friendLogo} />
+
             <label id="FriendName">{friendName}</label>
           </div>
           <div id="messageContainer">

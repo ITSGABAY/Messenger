@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     userName: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     logoImage: {
       type: DataTypes.BLOB,

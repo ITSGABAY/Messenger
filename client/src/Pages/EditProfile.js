@@ -24,6 +24,7 @@ const validationSchema = yup.object().shape({
 });
 
 function EditProfile() {
+  const [somethingChanged, setSomethingChanged] = useState(true);
   const [SubmitFailed, setSubmitFailed] = useState(false);
   const imageRef = useRef(null);
   const Navigator = useNavigate();
@@ -45,16 +46,24 @@ function EditProfile() {
     validationSchema,
   });
 
-  const handleCustomSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     formik.handleSubmit();
 
-    console.log(
-      "🚀 ~ file: EditProfile.js:49 ~ EditProfile ~ formik.isValid:",
-      formik.isValid
-    );
+    let hasNewImage = false;
+    let hasNewUsername =
+      formik.values.username && formik.values.username !== username;
+    let hasNewDescription =
+      formik.values.description && formik.values.description !== description;
 
-    if (formik.isValid) {
+    try {
+      hasNewImage = Boolean(imageRef.current.files[0]);
+    } catch (e) {}
+
+    const editsMade = hasNewImage || hasNewUsername || hasNewDescription;
+    setSomethingChanged(editsMade);
+
+    if (formik.isValid && somethingChanged) {
       const data = {
         image: imageRef.current.files[0] || null,
         username: formik.values.username || null,
@@ -69,9 +78,9 @@ function EditProfile() {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((response) => console.log(response))
+        .then((response) => Navigator(`profile/${data.username}`))
         .catch((err) => {
-          if (err.response.status) {
+          if (err.response.status === 401) {
             Navigator("/login");
           }
         });
@@ -80,10 +89,7 @@ function EditProfile() {
       return;
     } else {
       setSubmitFailed(true);
-      console.log(
-        "🚀 ~ file: EditProfile.js:72 ~ EditProfile ~ SubmitFailed:",
-        SubmitFailed
-      );
+
       return;
     }
   };
@@ -123,9 +129,12 @@ function EditProfile() {
           <label id="fileInputLabel" htmlFor="fileInput"></label>
           <input id="fileInput" type="file" ref={imageRef} />
         </div>
-        <button type="submit" onClick={handleCustomSubmit}>
+        <button type="submit" onClick={handleSubmit}>
           Update Profile
         </button>
+        {somethingChanged ? null : (
+          <label className="inputErrorMsg">Must Edit Something</label>
+        )}
       </form>
     </div>
   );

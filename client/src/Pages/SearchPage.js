@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Post from "./Post";
+import Post from "../Components/Post";
 import ProfileCard from "../Components/ProfileCard";
 import NavBar from "./NavBar";
 import SearchBar from "../Components/SearchBar";
@@ -16,23 +16,19 @@ function SearchPage() {
   );
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      Navigator("/login");
-    } else {
-      axios
-        .get(`http://localhost:3001/search/${searchValue}`)
-        .then(async (response) => {
-          setResults({
-            posts: response.data.posts,
-            profiles: response.data.profiles,
-          });
-        })
-        .catch((err) => {
-          if (err.response.status) {
-            Navigator("/login");
-          }
+    axios
+      .get(`http://localhost:3001/search/${searchValue}`)
+      .then(async (response) => {
+        setResults({
+          posts: response.data.posts,
+          profiles: response.data.profiles,
         });
-    }
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          Navigator("/login");
+        }
+      });
   }, [searchValue, Navigator, isAuthenticated]);
 
   return (
@@ -40,15 +36,23 @@ function SearchPage() {
       <NavBar />
       <div id="searchPageDiv">
         <div id="searchBarContainer">
-          <SearchBar />
+          <SearchBar searchValue={searchValue} />
         </div>
         <div id="ProfilesResults">
           {results.profiles.map((profile) => {
+            let imageUrlLogo = null;
+            if (profile.logoImage) {
+              const buffer = profile.logoImage.data;
+              var arrayBufferView = new Uint8Array(buffer);
+              var blob = new Blob([arrayBufferView], { type: "image/png" });
+              var urlCreator = window.URL || window.webkitURL;
+              imageUrlLogo = urlCreator.createObjectURL(blob);
+            }
             return (
               <ProfileCard
                 username={profile.username}
                 description={profile.description}
-                logoImage={profile.logoImage}
+                logoImage={imageUrlLogo}
               />
             );
           })}

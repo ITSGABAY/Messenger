@@ -52,3 +52,8 @@ body {
     transform: scale(1);
   }
 }
+
+.inputErrorMsg {
+  font-size: 13px;
+  color: rgb(255 36 0);
+}

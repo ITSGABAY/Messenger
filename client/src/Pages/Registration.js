@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import * as yup from "yup";
 
@@ -31,74 +31,90 @@ const validationSchema = yup.object().shape({
 });
 
 function Registration() {
+  const [SubmitFailed, setSubmitFailed] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       email: "",
       username: "",
       password: "",
     },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
+    validationSchema,
+  });
+
+  const handleSubmit = (event) => {
+    console.log(
+      "🚀 ~ file: Registration.js:51 ~ handleCustomSubmit ~ formik.isValid:",
+      formik.isValid
+    );
+    event.preventDefault();
+    formik.handleSubmit();
+    setSubmitFailed(!formik.isValid);
+    if (formik.isValid) {
       const data = {
-        username: values.username,
-        password: values.password,
-        email: values.email,
+        username: formik.values.username,
+        password: formik.values.password,
+        email: formik.values.email,
       };
+
       axios
         .post("http://localhost:3001/auth/Register", data)
         .then((response) => {
           console.log(response);
+        })
+        .catch((err) => {
+          // Handle error here, if necessary
+          console.error("Registration error:", err);
         });
-    },
-    onSubmit: (values) => {
-      axios
-        .post("http://localhost:3001/auth/Register", values)
-        .then((response) => {
-          console.log(response);
-        });
-    },
-  });
+
+      setSubmitFailed(false);
+    } else {
+      setSubmitFailed(true);
+    }
+  };
 
   return (
     <div className="registrationContainer">
       <div className="title">
         <label id="title">Registration</label>
       </div>
-      <form onSubmit={formik.handleSubmit}>
-        <label htmlFor="username">Username</label>
+      <form id="RegistrationForm" onSubmit={formik.handleSubmit}>
+        <label id="registerLabelUsername" htmlFor="username">
+          Username
+        </label>
         <input
           id="username"
           type="text"
           placeholder="Enter your username"
-          name="username"
-          value={formik.values.username}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
+          {...formik.getFieldProps("username")}
         />
-
-        <label htmlFor="email">Email</label>
+        {formik.touched.username && formik.errors.username && SubmitFailed ? (
+          <label className="inputErrorMsg">{formik.errors.username}</label>
+        ) : null}
+        <label id="registerLabelEmail" htmlFor="email">
+          Email
+        </label>
         <input
           id="email"
-          type="email"
           placeholder="Enter your email"
-          name="email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
+          {...formik.getFieldProps("email")}
         />
-
-        <label htmlFor="password">Password</label>
+        {formik.touched.email && formik.errors.email && SubmitFailed ? (
+          <label className="inputErrorMsg">{formik.errors.email}</label>
+        ) : null}
+        <label id="registerLabelPassword" htmlFor="password">
+          Password
+        </label>
         <input
           id="password"
           type="password"
           placeholder="Enter your password"
-          name="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
+          {...formik.getFieldProps("password")}
         />
-
-        <button type="submit">Submit</button>
+        {formik.touched.password && formik.errors.password && SubmitFailed ? (
+          <label className="inputErrorMsg">{formik.errors.password}</label>
+        ) : null}
+        <button onClick={handleSubmit}>Submit</button>
       </form>
       <a href="/login">Have a User Already? Login</a>
     </div>

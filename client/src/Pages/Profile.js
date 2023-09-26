@@ -1,4 +1,4 @@
-import Post from "./Post";
+import Post from "../Components/Post";
 import NavBar from "./NavBar";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
@@ -13,34 +13,33 @@ function Profile() {
   const { profileName } = useParams();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      Navigator("/login");
-    } else {
-      axios
-        .get(`http://localhost:3001/profile/getprofiledata/${profileName}`)
-        .then(async (response) => {
-          let imageUrlLogo = null;
-          if (response.data.logoImage) {
-            const buffer = response.data.logoImage.data;
-            var arrayBufferView = new Uint8Array(buffer);
-            var blob = new Blob([arrayBufferView], { type: "image/png" });
-            var urlCreator = window.URL || window.webkitURL;
-            imageUrlLogo = urlCreator.createObjectURL(blob);
-          }
-          await setProfileData({
-            username: response.data.username,
-            id: response.data.id,
-            posts: response.data.posts,
-            description: response.data.description,
-            logoImage: imageUrlLogo,
-          });
-        })
-        .catch((err) => {
-          if (err.response.status) {
-            Navigator("/login");
-          }
+    axios
+      .get(`http://localhost:3001/profile/getprofiledata/${profileName}`)
+      .then(async (response) => {
+        let imageUrlLogo = null;
+        if (response.data.logoImage) {
+          const buffer = response.data.logoImage.data;
+          var arrayBufferView = new Uint8Array(buffer);
+          var blob = new Blob([arrayBufferView], { type: "image/png" });
+          var urlCreator = window.URL || window.webkitURL;
+          imageUrlLogo = urlCreator.createObjectURL(blob);
+        }
+        await setProfileData({
+          username: response.data.username,
+          id: response.data.id,
+          posts: response.data.posts,
+          description: response.data.description,
+          logoImage: imageUrlLogo,
         });
-    }
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          Navigator("/404");
+        }
+        if (err.response.status === 401) {
+          Navigator("/login");
+        }
+      });
   }, []);
 
   return (

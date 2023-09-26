@@ -27,6 +27,15 @@
   border-bottom: var(--c2) solid 2px;
   position: relative;
 }
+#chatFriendLogo {
+  border: var(--c3) 2px solid;
+  border-radius: 78px;
+  background: #001c30;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
 #messageContainer {
   height: 85%;
   scroll-snap-type: y mandatory;

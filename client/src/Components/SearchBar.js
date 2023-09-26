@@ -1,10 +1,11 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import searchIcon from "../Resources/Images/search-interface-symbol (1).png";
 import { useNavigate } from "react-router-dom";
 
-function SearchBar() {
+function SearchBar(props) {
   const Navigator = useNavigate();
   const searchRef = useRef("");
+  const [searchValue, setSearchValue] = useState(props.searchValue || "");
   const handleEnter = (event) => {
     if (event.key === "Enter") {
       Search();
@@ -23,7 +24,10 @@ function SearchBar() {
         placeholder="Search..."
         onKeyDown={handleEnter}
         ref={searchRef}
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
       />
+
       <img src={searchIcon} alt="SearchIcon" id="SearchIcon" onClick={Search} />
     </div>
   );

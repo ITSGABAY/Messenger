@@ -84,11 +84,6 @@
   filter: invert(96%) sepia(4%) saturate(3665%) hue-rotate(169deg)
     brightness(107%) contrast(101%);
 }
-
 #fileInput {
   display: none;
-}
-.inputErrorMsg {
-  font-size: 13px;
-  color: rgb(151, 7, 7);
 }

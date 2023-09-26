@@ -14,6 +14,7 @@ import "./Styles/Message.css";
 import "./Styles/NotFound.css";
 import "./Styles/Home.css";
 import "./Styles/EditProfile.css";
+import "./Styles/ProfileNotExist.css";
 
 import {
   createBrowserRouter,
@@ -35,6 +36,9 @@ import EditProfile from "./Pages/EditProfile";
 import Chat from "./Pages/Chat";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 function App() {
   const router = createBrowserRouter([

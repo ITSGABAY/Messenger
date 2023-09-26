@@ -118,8 +118,10 @@
   border-radius: 78px;
   background: #001c30;
   box-shadow: 13px 13px 29px #001422, -13px -13px 29px #00243e;
-  width: 50%;
+  width: 149px;
+  height: 140px;
   margin-top: 5%;
+  object-fit: cover;
 }
 #homeUserName {
   font-size: 40px;

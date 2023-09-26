@@ -5,6 +5,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 
 ul {
@@ -29,11 +30,23 @@ a {
   text-decoration: none;
   padding: 3px;
 }
-#NavBarimageFrame {
-  height: 80%;
-}
+
 #NavBarImageLogo {
-  height: 100%;
+  border: var(--c3) 4px solid;
+  border-radius: 78px;
+  background: #001c30;
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+}
+#NavBarHomeLogo {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  filter: invert(96%) sepia(4%) saturate(3665%) hue-rotate(169deg)
+    brightness(107%) contrast(101%);
+  position: absolute;
+  left: 50%;
 }
 
 #NavBarSearchDiv {
@@ -41,4 +54,24 @@ a {
   width: 40%;
   margin-right: 3%;
   max-width: 300px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2%;
+  transition: background-color 0.3s ease;
+}
+
+#main-buttons li:hover a,
+#NavBarLogoutLogo:hover,
+#NavBarImageLogo:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+#NavBarSearchDiv {
+  margin-left: auto;
+  margin-right: 2%;
 }

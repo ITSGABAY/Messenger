@@ -50,7 +50,7 @@
   width: 5%;
   display: flex;
   gap: 10px;
-  flex-direction: column-reverse;
+  flex-direction: column;
   justify-content: space-between;
 }
 #createAPostBtn {
@@ -62,6 +62,11 @@
     brightness(107%) contrast(101%);
 }
 #messageBtn {
+  filter: invert(96%) sepia(4%) saturate(3665%) hue-rotate(169deg)
+    brightness(107%) contrast(101%);
+}
+#NavBarLogoutLogo {
+  object-fit: cover;
   filter: invert(96%) sepia(4%) saturate(3665%) hue-rotate(169deg)
     brightness(107%) contrast(101%);
 }

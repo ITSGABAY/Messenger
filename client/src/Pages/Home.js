@@ -1,11 +1,10 @@
 import NavBar from "./NavBar";
 import React, { useState, useEffect } from "react";
 import defaultLogo from "../Resources/Images/defaultLogo.png";
-
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import Post from "./Post";
+import Post from "../Components/Post";
 
 function Home() {
   const [profiles, setProfiles] = useState([]);
@@ -16,22 +15,18 @@ function Home() {
     useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      Navigator("/login");
-    } else {
-      axios
-        .get(`http://localhost:3001/home/`)
-        .then(async (response) => {
-          setUser(response.data.user);
-          setPosts(response.data.posts);
-          setProfiles(response.data.profiles);
-        })
-        .catch((err) => {
-          if (err.response.status) {
-            Navigator("/login");
-          }
-        });
-    }
+    axios
+      .get(`http://localhost:3001/home/`)
+      .then(async (response) => {
+        setUser(response.data.user);
+        setPosts(response.data.posts);
+        setProfiles(response.data.profiles);
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          Navigator("/login");
+        }
+      });
   }, []);
 
   return (
@@ -49,8 +44,6 @@ function Home() {
                 var urlCreator = window.URL || window.webkitURL;
                 imageUrlLogo = urlCreator.createObjectURL(blob);
               }
-              console.log("profile.username::: ", profile.username);
-              console.log("imageUrlLogo::: ", profile);
 
               return (
                 <div

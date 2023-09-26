@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import defaultLogo from "../Resources/Images/defaultLogo.png";
 import submitIcon from "../Resources/Images/comment.png";
-import Comment from "../Components/Comment";
+import Comment from "./Comment";
 import { useNavigate, useMatch } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -12,10 +12,14 @@ function Post({ postData }) {
   const [details, setDetails] = useState({ logoImage: null });
   const Navigator = useNavigate();
   const match = useMatch("/post/:postId");
-  const { isAuthenticated, userId, username } = useSelector(
+  const { isAuthenticated, userId, username, logoImage } = useSelector(
     (state) => state.auth
   );
-
+  const handleEnter = (event) => {
+    if (event.key === "Enter") {
+      SubmitComment();
+    }
+  };
   useEffect(() => {
     let logoImageUrl = null;
     if (postData && postData.comments) {
@@ -38,7 +42,7 @@ function Post({ postData }) {
       logoImage: logoImageUrl,
       title: postData.title,
       description: postData.description,
-      userName: postData.username,
+      username: postData.username,
       comments: postData.comments,
     });
     setComments(postData.comments);
@@ -53,13 +57,13 @@ function Post({ postData }) {
       .then((response) => {
         setComments((prevComments) => [
           ...prevComments,
-          { text: comment, username: username },
+          { text: comment, username: username, logoImage: logoImage },
         ]);
 
         commentRef.current.value = "";
       })
       .catch((err) => {
-        if (err.response.status) {
+        if (err.response.status === 401) {
           Navigator("/login");
         }
       });
@@ -85,7 +89,7 @@ function Post({ postData }) {
               id="PostImageLogo"
               alt="Profile"
             />
-            <label id="PostProfileName">{details.userName}</label>
+            <label id="PostProfileName">{details.username}</label>
           </div>
           <div id="PostRightSideTopInfo">
             <label id="PostTitle">{details.title}</label>
@@ -95,13 +99,20 @@ function Post({ postData }) {
         <div id="PostCommentsContainer">
           {comments.map((comment) => {
             let commentLogo = null;
+
             if (comment.logoImage) {
-              const buffer = comment.logoImage.data;
-              var arrayBufferView = new Uint8Array(buffer);
-              var blob = new Blob([arrayBufferView], { type: "image/png" });
-              var urlCreator = window.URL || window.webkitURL;
-              commentLogo = urlCreator.createObjectURL(blob);
+              if (comment.logoImage.data) {
+                const buffer =
+                  comment.logoImage.data || comment.logoImage.Image;
+                const arrayBufferView = new Uint8Array(buffer);
+                const blob = new Blob([arrayBufferView], { type: "image/png" });
+                const urlCreator = window.URL || window.webkitURL;
+                commentLogo = urlCreator.createObjectURL(blob);
+              } else {
+                commentLogo = comment.logoImage;
+              }
             }
+
             return (
               <Comment
                 key={comment.id}
@@ -119,6 +130,7 @@ function Post({ postData }) {
             type="text"
             placeholder="Enter Comment"
             ref={commentRef}
+            onKeyDown={handleEnter}
           />
           <img
             id="submitComment"

@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const { Users } = require("../models");
+const { Users, Profiles, Comments, Posts, Messages } = require("../models");
+const { Op } = require("sequelize");
+const { Sequelize, SequelizeUniqueConstraintError } = require("sequelize");
 const { getIdFromCookie, validateToken } = require("../middleware/JWT");
 const {
-  getRandomPosts,
+  getCommentsByPostId,
+  mapPostData,
   getUserDataById,
-  getRandomProfiles,
 } = require("../middleware/Helpers");
-
 router.get("/", validateToken, async (req, res) => {
   const userId = getIdFromCookie(req);
   const posts = await getRandomPosts(userId);
@@ -17,5 +18,40 @@ router.get("/", validateToken, async (req, res) => {
 
   res.send(data);
 });
+
+////////////////////////////////////////////////////////////////////
+
+const getRandomProfiles = async (userId) => {
+  const randomProfiles = await Profiles.findAll({
+    where: {
+      id: {
+        [Sequelize.Op.ne]: userId,
+      },
+    },
+    order: Sequelize.literal("RAND()"),
+    limit: 5,
+  });
+
+  const profilesList = randomProfiles.map((profile) => ({
+    username: profile.userName,
+    logoImage: profile.logoImage,
+  }));
+
+  return profilesList;
+};
+
+const getRandomPosts = async (userId) => {
+  const posts = await Posts.findAll({
+    where: {
+      UserId: {
+        [Sequelize.Op.ne]: userId,
+      },
+    },
+    order: Sequelize.literal("RAND()"),
+    limit: 5,
+  });
+  const postList = await Promise.all(posts.map((post) => mapPostData(post)));
+  return postList;
+};
 
 module.exports = router;
